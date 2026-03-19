@@ -1,0 +1,146 @@
+/* public/css/owner/produk.css */
+
+/* ============================================================
+   Filter
+   ============================================================ */
+.ow-filter-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.ow-filter-select,
+.ow-filter-input {
+    font-size: 0.85rem;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+}
+
+.ow-search-wrap {
+    position: relative;
+}
+
+.ow-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+
+.ow-search-input {
+    padding-left: 34px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+}
+
+.ow-btn-filter {
+    background: #3a6b1a;
+    color: white;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    border: none;
+    transition: background 0.15s;
+}
+
+.ow-btn-filter:hover {
+    background: #2d5a14;
+    color: white;
+}
+
+.ow-btn-reset {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    color: #6b7280;
+    flex-shrink: 0;
+    background: white;
+    transition:
+        border-color 0.15s,
+        color 0.15s;
+}
+
+.ow-btn-reset:hover {
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+/* ============================================================
+   Table column helpers
+   ============================================================ */
+.col-no {
+    width: 50px;
+}
+
+.ow-td-no {
+    font-size: 0.78rem;
+    color: #9ca3af;
+}
+
+/* ============================================================
+   Produk cell
+   ============================================================ */
+.ow-produk-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    flex-shrink: 0;
+}
+
+.ow-produk-img-placeholder {
+    width: 40px;
+    height: 40px;
+    background: #f4f6f3;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.ow-produk-name {
+    font-weight: 600;
+    color: #1a2e0f;
+    font-size: 0.85rem;
+    line-height: 1.3;
+}
+
+.ow-produk-desc {
+    font-size: 0.72rem;
+    color: #9ca3af;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ============================================================
+   Harga & stok rows
+   ============================================================ */
+.ow-harga-row {
+    font-size: 0.8rem;
+    line-height: 1.8;
+}
+
+.ow-stok-normal {
+    font-size: 0.8rem;
+    color: #374151;
+}
+
+/* ============================================================
+   Kadaluarsa
+   ============================================================ */
+.ow-exp-date {
+    font-size: 0.8rem;
+    color: #6b7280;
+}

@@ -1,0 +1,103 @@
+/* public/css/owner/log.css */
+
+/* ============================================================
+   Filter
+   ============================================================ */
+.ow-filter-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.ow-filter-select,
+.ow-filter-input {
+    font-size: 0.85rem;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+}
+
+.ow-btn-filter {
+    background: #3a6b1a;
+    color: white;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    border: none;
+    transition: background 0.15s;
+}
+
+.ow-btn-filter:hover {
+    background: #2d5a14;
+    color: white;
+}
+
+.ow-btn-reset {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    color: #6b7280;
+    flex-shrink: 0;
+    background: white;
+    transition:
+        border-color 0.15s,
+        color 0.15s;
+}
+
+.ow-btn-reset:hover {
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+/* ============================================================
+   Table column helpers
+   ============================================================ */
+.col-no {
+    width: 40px;
+}
+
+.ow-td-no {
+    font-size: 0.78rem;
+    color: #9ca3af;
+}
+
+.ow-td-activity {
+    font-size: 0.82rem;
+    color: #374151;
+}
+
+.ow-td-waktu {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    white-space: nowrap;
+}
+
+/* ============================================================
+   Log avatar & username
+   ============================================================ */
+.ow-log-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f0fce8;
+    color: #2d5a14;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.ow-log-username {
+    font-weight: 600;
+    font-size: 0.82rem;
+}
+
+/* ============================================================
+   Modul badge
+   ============================================================ */
+.ow-modul-badge {
+    font-size: 0.7rem;
+}

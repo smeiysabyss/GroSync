@@ -1,0 +1,251 @@
+/* ============================================================
+   public/css/auth/login.css
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+
+    /* Background */
+    background:
+        url("/images/bg.png") no-repeat left bottom,
+        #43690f;
+    background-size: contain;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8%;
+    overflow: hidden;
+}
+
+/* ============================================================
+   Teks Kiri
+   ============================================================ */
+.left-content {
+    position: absolute;
+    left: 52px;
+    top: 48px;
+}
+
+.left-content h1 {
+    font-size: 35px;
+    font-weight: 850;
+    color: white;
+    line-height: 1.25;
+    max-width: 320px;
+}
+
+/* ============================================================
+   Login Card
+   ============================================================ */
+.login-card {
+    width: 360px;
+    background: #3d6b22;
+    border-radius: 20px;
+    padding: 48px 40px;
+    box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.55),
+        0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+/* ============================================================
+   Alert Error Global
+   ============================================================ */
+.alert-error {
+    background: rgba(255, 80, 80, 0.18);
+    border: 1px solid rgba(255, 120, 120, 0.45);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    color: #ffb3b3;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: shakeError 0.35s ease;
+}
+
+.alert-icon {
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+@keyframes shakeError {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-6px);
+    }
+    40% {
+        transform: translateX(6px);
+    }
+    60% {
+        transform: translateX(-4px);
+    }
+    80% {
+        transform: translateX(4px);
+    }
+}
+
+/* ============================================================
+   Form Group
+   ============================================================ */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #d4eabd;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 13px 18px;
+    background: white;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    outline: none;
+    transition:
+        box-shadow 0.2s,
+        border-color 0.2s;
+    color: #1a2e0f;
+}
+
+.form-group input:focus {
+    box-shadow: 0 0 0 3px rgba(144, 238, 100, 0.45);
+    border-color: #8ece3f;
+}
+
+/* Input error state */
+.form-group input.input-error {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+}
+
+/* ============================================================
+   Password Wrapper + Toggle
+   ============================================================ */
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 50px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 50%;
+    transition:
+        color 0.2s,
+        background-color 0.2s;
+    line-height: 1;
+}
+
+.toggle-password:hover {
+    color: #4a7c2f;
+    background-color: rgba(74, 124, 47, 0.08);
+}
+
+.toggle-password:focus {
+    outline: none;
+}
+
+/* ============================================================
+   Error Message
+   ============================================================ */
+.error-msg {
+    color: #ffb3b3;
+    font-size: 12px;
+    margin-top: 7px;
+    padding-left: 12px;
+    animation: shakeError 0.35s ease;
+}
+
+/* ============================================================
+   Tombol Login
+   ============================================================ */
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    background: #8ece3f;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    box-shadow: 0 4px 15px rgba(142, 206, 63, 0.35);
+    transition:
+        background-color 0.2s,
+        transform 0.1s,
+        box-shadow 0.2s;
+}
+
+.btn-login:hover {
+    background: #a0dd50;
+    box-shadow: 0 6px 20px rgba(142, 206, 63, 0.5);
+}
+
+.btn-login:active {
+    transform: scale(0.98);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 700px) {
+    .left-content {
+        display: none;
+    }
+
+    body {
+        justify-content: center;
+        padding-right: 0;
+    }
+
+    .login-card {
+        width: 90%;
+        padding: 40px 28px;
+    }
+}

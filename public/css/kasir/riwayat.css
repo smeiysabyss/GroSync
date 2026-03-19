@@ -1,0 +1,453 @@
+/* public/css/kasir/riwayat.css */
+
+:root {
+    --rw-green: #2d5a14;
+    --rw-green-mid: #3a6b1a;
+    --rw-green-light: #f0fce8;
+    --rw-border: #e8efe3;
+}
+
+/* ============================================================
+   Page Header
+   ============================================================ */
+.rw-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.rw-page-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #1e3d0d;
+    margin-bottom: 2px;
+}
+
+.rw-page-subtitle {
+    font-size: 0.78rem;
+    color: #6b7280;
+}
+
+/* ============================================================
+   Stat Cards
+   ============================================================ */
+.rw-stat-card {
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    border: 1px solid var(--rw-border);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.rw-stat-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.rw-icon-blue {
+    background: #eff6ff;
+    color: #2563eb;
+}
+.rw-icon-green {
+    background: var(--rw-green-light);
+    color: var(--rw-green);
+}
+
+.rw-stat-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+}
+
+.rw-stat-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #1e3d0d;
+    line-height: 1.2;
+}
+
+.rw-stat-value--sm {
+    font-size: 1.05rem;
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    white-space: nowrap;
+}
+
+.rw-currency {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+/* ============================================================
+   Card
+   ============================================================ */
+.rw-card {
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    border: 1px solid var(--rw-border);
+}
+
+/* ============================================================
+   Table
+   ============================================================ */
+.rw-table-wrap {
+    overflow-x: auto;
+    border-radius: 14px;
+}
+
+.rw-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+
+.rw-table thead tr {
+    background: #f8faf6;
+    border-bottom: 2px solid var(--rw-border);
+}
+
+.rw-table thead th {
+    padding: 12px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.rw-table tbody tr {
+    border-bottom: 1px solid #f3f4f6;
+    transition: background 0.1s;
+}
+
+.rw-table tbody tr:hover {
+    background: #f8faf6;
+}
+.rw-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.rw-table tbody td {
+    padding: 12px 14px;
+    color: #374151;
+    vertical-align: middle;
+}
+
+.rw-td-no {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+.rw-td-sm {
+    font-size: 0.82rem;
+}
+.rw-td-center {
+    text-align: center;
+    font-size: 0.82rem;
+}
+.rw-td-total {
+    font-weight: 700;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+.rw-td-muted {
+    font-size: 0.82rem;
+    color: #6b7280;
+    white-space: nowrap;
+}
+.rw-td-waktu {
+    font-size: 0.78rem;
+    color: #9ca3af;
+    white-space: nowrap;
+}
+
+.rw-nomor {
+    font-weight: 700;
+    color: var(--rw-green);
+    font-size: 0.8rem;
+}
+
+/* ============================================================
+   Badges
+   ============================================================ */
+.rw-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.rw-badge-green {
+    background: #dcfce7;
+    color: #166534;
+}
+.rw-badge-red {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ============================================================
+   Action Buttons
+   ============================================================ */
+.rw-btn-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.rw-btn-detail {
+    background: #eff6ff;
+    color: #2563eb;
+}
+.rw-btn-detail:hover {
+    background: #2563eb;
+    color: white;
+}
+
+.rw-btn-struk {
+    background: var(--rw-green-light);
+    color: var(--rw-green);
+}
+.rw-btn-struk:hover {
+    background: var(--rw-green);
+    color: white;
+}
+
+/* ============================================================
+   Empty State
+   ============================================================ */
+.rw-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9ca3af;
+}
+
+.rw-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    opacity: 0.4;
+}
+.rw-empty-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* ============================================================
+   Modal
+   ============================================================ */
+.rw-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1100;
+    backdrop-filter: blur(3px);
+}
+
+.rw-modal-overlay.active {
+    display: block;
+}
+
+.rw-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 520px;
+    max-height: 88vh;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    z-index: 1200;
+    flex-direction: column;
+    overflow: hidden;
+    animation: modalIn 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.rw-modal.active {
+    display: flex;
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -48%) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.rw-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    background: var(--rw-green-light);
+    border-bottom: 1px solid var(--rw-border);
+    flex-shrink: 0;
+}
+
+.rw-modal-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #1e3d0d;
+}
+
+.rw-modal-subtitle {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 2px;
+    font-weight: 600;
+}
+
+.rw-modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: all 0.15s;
+}
+
+.rw-modal-close:hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.rw-modal-body {
+    padding: 20px 22px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* ============================================================
+   Detail Grid
+   ============================================================ */
+.rw-detail-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.rw-detail-info-item {
+    background: #f8faf6;
+    border-radius: 10px;
+    padding: 10px 14px;
+}
+
+.rw-detail-info-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+}
+
+.rw-detail-info-value {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1a2e0f;
+}
+
+.rw-detail-section-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.rw-detail-table-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #f3f4f6;
+}
+
+.rw-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+
+.rw-detail-table thead tr {
+    background: #f8faf6;
+}
+
+.rw-detail-table thead th {
+    padding: 10px 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.rw-detail-table tbody tr {
+    border-top: 1px solid #f3f4f6;
+}
+.rw-detail-table tbody td {
+    padding: 10px 12px;
+    color: #374151;
+}
+
+.rw-detail-total-label {
+    padding: 10px 12px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    background: #f8faf6;
+    color: #374151;
+}
+
+.rw-detail-total-value {
+    padding: 10px 12px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    background: #f8faf6;
+    color: var(--rw-green);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 575.98px) {
+    .rw-detail-info-grid {
+        grid-template-columns: 1fr;
+    }
+}

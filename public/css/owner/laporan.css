@@ -1,0 +1,184 @@
+/* public/css/owner/laporan.css */
+
+/* ============================================================
+   Filter
+   ============================================================ */
+.ow-filter-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.ow-filter-select,
+.ow-filter-input {
+    font-size: 0.85rem;
+    border-radius: 10px;
+    font-family: "Poppins", sans-serif;
+}
+
+.ow-btn-filter {
+    background: #3a6b1a;
+    color: white;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    border: none;
+    transition: background 0.15s;
+}
+
+.ow-btn-filter:hover {
+    background: #2d5a14;
+    color: white;
+}
+
+.ow-btn-reset {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    color: #6b7280;
+    flex-shrink: 0;
+    background: white;
+    transition:
+        border-color 0.15s,
+        color 0.15s;
+}
+
+.ow-btn-reset:hover {
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+/* ============================================================
+   Tombol Export Excel
+   ============================================================ */
+.ow-btn-export {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    background: #1d6f42; /* hijau Excel */
+    color: #ffffff;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    text-decoration: none;
+    border: none;
+    transition:
+        background 0.15s,
+        transform 0.1s,
+        box-shadow 0.15s;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(29, 111, 66, 0.25);
+}
+
+.ow-btn-export:hover {
+    background: #155232;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(29, 111, 66, 0.35);
+}
+
+.ow-btn-export:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(29, 111, 66, 0.2);
+}
+
+.ow-btn-export i {
+    font-size: 1rem;
+}
+
+/* ============================================================
+   Summary badges (header kanan)
+   ============================================================ */
+.ow-summary-badge {
+    background: white;
+    border: 1px solid #e8efe3;
+    border-radius: 12px;
+    padding: 10px 18px;
+    text-align: center;
+}
+
+.ow-summary-label {
+    font-size: 0.68rem;
+    color: #9ca3af;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.ow-summary-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #2d5a14;
+    margin-top: 2px;
+}
+
+/* ============================================================
+   Shortcut tanggal
+   ============================================================ */
+.ow-shortcut-label {
+    font-size: 0.72rem;
+    color: #9ca3af;
+    font-weight: 600;
+}
+
+.ow-shortcut-btn {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #6b7280;
+    background: #f4f6f3;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    transition: all 0.15s;
+    font-family: "Poppins", sans-serif;
+}
+
+.ow-shortcut-btn:hover,
+.ow-shortcut-btn.active {
+    background: #f0fce8;
+    color: #2d5a14;
+    border-color: #8ece3f;
+}
+
+/* ============================================================
+   Table column helpers
+   ============================================================ */
+.col-no {
+    width: 40px;
+}
+
+.ow-td-no {
+    font-size: 0.78rem;
+    color: #9ca3af;
+}
+
+.ow-td-nomor {
+    font-weight: 700;
+    color: #2d5a14;
+    font-size: 0.8rem;
+}
+
+.ow-td-sm {
+    font-size: 0.82rem;
+}
+
+.ow-td-muted {
+    font-size: 0.82rem;
+    color: #6b7280;
+}
+
+.ow-td-total {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.ow-td-waktu {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    white-space: nowrap;
+}

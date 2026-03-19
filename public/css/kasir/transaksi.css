@@ -1,0 +1,514 @@
+/* ============================================================
+   public/css/kasir/transaksi.css
+   Modal Transaksi + Alert Sukses
+   ============================================================ */
+
+/* ============================================================
+   BACKDROP
+   ============================================================ */
+.trx-backdrop,
+.trx-success-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1055;
+    backdrop-filter: blur(2px);
+}
+
+.trx-backdrop.show,
+.trx-success-backdrop.show {
+    display: block;
+}
+
+/* ============================================================
+   MODAL TRANSAKSI
+   ============================================================ */
+.trx-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    width: 420px;
+    max-width: calc(100vw - 32px);
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+    z-index: 1060;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.2s ease;
+}
+
+.trx-modal.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Header */
+.trx-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 22px 16px;
+    background: linear-gradient(135deg, #2d5a14, #3a6b1a);
+    color: white;
+}
+
+.trx-modal-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.trx-modal-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+.trx-modal-title {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.trx-modal-subtitle {
+    font-size: 0.72rem;
+    opacity: 0.8;
+    margin-top: 1px;
+}
+
+.trx-modal-close {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+
+.trx-modal-close:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Body */
+.trx-modal-body {
+    padding: 20px 22px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Ringkasan */
+.trx-summary-box {
+    background: #f0fce8;
+    border: 1.5px solid #c6f1a0;
+    border-radius: 12px;
+    padding: 12px 16px;
+}
+
+.trx-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+}
+
+.trx-summary-label {
+    color: #4b6b2f;
+    font-weight: 500;
+}
+
+.trx-summary-val {
+    font-weight: 700;
+    color: #1a2e0f;
+}
+
+.trx-summary-divider {
+    height: 1px;
+    background: #c6f1a0;
+    margin: 8px 0;
+}
+
+.trx-summary-total .trx-summary-label {
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+
+.trx-total-val {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #2d5a14;
+}
+
+/* Field */
+.trx-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.trx-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #374151;
+    display: flex;
+    align-items: center;
+}
+
+.trx-label-required {
+    color: #ef4444;
+    margin-left: 3px;
+}
+
+.trx-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-family: "Poppins", sans-serif;
+    color: #1a2e0f;
+    outline: none;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+    background: white;
+}
+
+.trx-input:focus {
+    border-color: #3a6b1a;
+    box-shadow: 0 0 0 3px rgba(58, 107, 26, 0.1);
+}
+
+/* Input uang */
+.trx-input-money-wrap {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.trx-input-money-wrap:focus-within {
+    border-color: #3a6b1a;
+    box-shadow: 0 0 0 3px rgba(58, 107, 26, 0.1);
+}
+
+.trx-money-prefix {
+    padding: 10px 12px;
+    background: #f9fafb;
+    border-right: 1.5px solid #e5e7eb;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #6b7280;
+    flex-shrink: 0;
+}
+
+.trx-input-money {
+    border: none;
+    border-radius: 0;
+    padding: 10px 14px;
+    flex: 1;
+    box-shadow: none !important;
+}
+
+.trx-input-money:focus {
+    border-color: transparent;
+    box-shadow: none !important;
+}
+
+/* Hilangkan spinner number input */
+.trx-input-money::-webkit-outer-spin-button,
+.trx-input-money::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.trx-input-money[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* Kembalian */
+.trx-kembalian-wrap {
+    background: #f9fafb;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 14px;
+    transition:
+        background 0.2s,
+        border-color 0.2s;
+}
+
+.trx-kembalian-wrap.positif {
+    background: #f0fce8;
+    border-color: #8ece3f;
+}
+
+.trx-kembalian-wrap.negatif {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.trx-kembalian-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trx-kembalian-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.trx-kembalian-val {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #1a2e0f;
+    font-family: "Poppins", sans-serif;
+}
+
+.trx-kembalian-val.positif {
+    color: #166534;
+}
+.trx-kembalian-val.negatif {
+    color: #dc2626;
+}
+
+/* Alert kurang bayar */
+.trx-alert-kurang {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #dc2626;
+    display: flex;
+    align-items: center;
+}
+
+/* Cetak struk */
+.trx-cetak-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-bottom: 4px;
+}
+
+.trx-cetak-checkbox {
+    width: 15px;
+    height: 15px;
+    accent-color: #3a6b1a;
+    cursor: pointer;
+}
+
+.trx-cetak-text {
+    font-size: 0.78rem;
+    color: #6b7280;
+}
+
+/* Footer */
+.trx-modal-footer {
+    display: flex;
+    gap: 10px;
+    padding: 16px 22px 20px;
+}
+
+.trx-btn-batal {
+    flex: 1;
+    padding: 11px;
+    background: white;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    color: #6b7280;
+    cursor: pointer;
+    transition:
+        background 0.15s,
+        border-color 0.15s;
+}
+
+.trx-btn-batal:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+}
+
+.trx-btn-bayar {
+    flex: 1.8;
+    padding: 11px;
+    background: #8ece3f;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 800;
+    font-family: "Poppins", sans-serif;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition:
+        background 0.15s,
+        transform 0.1s;
+    letter-spacing: 0.3px;
+}
+
+.trx-btn-bayar:hover:not(:disabled) {
+    background: #7cbd2f;
+    transform: scale(1.01);
+}
+
+.trx-btn-bayar:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+}
+
+/* ============================================================
+   ALERT SUKSES
+   ============================================================ */
+.trx-success-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 320px;
+    max-width: calc(100vw - 32px);
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+    z-index: 1060;
+    padding: 36px 28px 28px;
+    text-align: center;
+    opacity: 0;
+    transition:
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.2s ease;
+}
+
+.trx-success-modal.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* SVG checkmark animation */
+.trx-success-svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+}
+
+.trx-success-circle {
+    stroke: #8ece3f;
+    stroke-width: 2;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: trxCircleIn 0.5s ease forwards 0.1s;
+}
+
+.trx-success-check {
+    stroke: #3a6b1a;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: trxCheckIn 0.35s ease forwards 0.55s;
+}
+
+@keyframes trxCircleIn {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes trxCheckIn {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.trx-success-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #1a2e0f;
+    margin-bottom: 6px;
+}
+
+.trx-success-msg {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.trx-success-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.trx-success-btn-struk {
+    flex: 1;
+    padding: 10px;
+    background: white;
+    border: 1.5px solid #3a6b1a;
+    color: #3a6b1a;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: background 0.15s;
+}
+
+.trx-success-btn-struk:hover {
+    background: #f0fce8;
+}
+
+.trx-success-btn-lanjut {
+    flex: 1;
+    padding: 10px;
+    background: #8ece3f;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.trx-success-btn-lanjut:hover {
+    background: #7cbd2f;
+}

@@ -1,0 +1,388 @@
+/* public/css/admin/produk.css */
+
+/* Page Header */
+.page-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a2e0f;
+}
+.breadcrumb {
+    font-size: 0.8rem;
+}
+.breadcrumb-item a {
+    color: #4a7c2f;
+    text-decoration: none;
+}
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+.breadcrumb-item.active {
+    color: #6b7280;
+}
+
+/* Tombol Tambah */
+.btn-tambah {
+    background-color: #4a7c2f;
+    color: #ffffff;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition:
+        background-color 0.2s,
+        transform 0.15s,
+        box-shadow 0.2s;
+    box-shadow: 0 2px 6px rgba(74, 124, 47, 0.3);
+}
+.btn-tambah:hover {
+    background-color: #3a6424;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* Empty State */
+.empty-state-full {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #9ca3af;
+    min-height: 300px;
+}
+.empty-state-full i {
+    font-size: 3rem;
+    opacity: 0.35;
+}
+.empty-state-full p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* ============================================================
+   Produk Card
+   ============================================================ */
+.produk-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.07);
+    border: 1px solid #e9ecef;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition:
+        box-shadow 0.2s,
+        transform 0.2s;
+}
+
+.produk-card:hover {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Gambar */
+.produk-card-img {
+    position: relative;
+    height: 160px;
+    background: #f3f4f6;
+    overflow: hidden;
+}
+
+.produk-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.produk-no-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: #d1d5db;
+    background: #f9fafb;
+}
+
+/* Badge Kategori */
+.produk-badge-kategori {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(45, 90, 27, 0.85);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
+}
+
+/* Card Body */
+.produk-card-body {
+    padding: 14px 16px;
+    flex: 1;
+}
+
+.produk-nama {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #1a2e0f;
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+.produk-deskripsi {
+    font-size: 0.78rem;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+/* Harga Chips */
+.produk-harga-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.harga-chip {
+    display: inline-block;
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    border-radius: 20px;
+    font-size: 0.73rem;
+    font-weight: 600;
+    padding: 2px 9px;
+}
+
+.harga-chip-more {
+    background: #f3f4f6;
+    color: #6b7280;
+    border-color: #e5e7eb;
+}
+
+.produk-no-harga {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.produk-exp {
+    font-size: 0.76rem;
+    color: #9ca3af;
+}
+
+/* Card Footer */
+.produk-card-footer {
+    display: flex;
+    gap: 8px;
+    padding: 10px 16px 14px;
+    border-top: 1px solid #f3f4f6;
+}
+
+/* Tombol Aksi */
+.btn-aksi {
+    border: none;
+    border-radius: 7px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        transform 0.15s;
+    padding: 7px 10px;
+    gap: 4px;
+}
+.btn-aksi:hover {
+    transform: translateY(-1px);
+}
+.btn-aksi-edit {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+.btn-aksi-edit:hover {
+    background-color: #a7f3d0;
+}
+.btn-aksi-hapus {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+.btn-aksi-hapus:hover {
+    background-color: #fecaca;
+}
+
+/* ============================================================
+   Gambar Preview (Upload)
+   ============================================================ */
+.gambar-preview-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.gambar-preview {
+    width: 100%;
+    max-height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1.5px solid #e5e7eb;
+}
+
+.btn-hapus-preview {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    background: #dc2626;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* ============================================================
+   Modal
+   ============================================================ */
+.grosync-modal {
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.grosync-modal .modal-header {
+    background-color: #2d5a1b;
+    padding: 16px 20px;
+    border-bottom: none;
+}
+
+.grosync-modal .modal-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.grosync-modal .modal-body {
+    padding: 24px 20px 16px;
+}
+.grosync-modal .modal-footer {
+    padding: 12px 20px 20px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.grosync-modal .form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.grosync-input {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 0.88rem;
+    color: #374151;
+    background-color: #fafafa;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.grosync-input:focus {
+    border-color: #4a7c2f;
+    box-shadow: 0 0 0 3px rgba(74, 124, 47, 0.12);
+    background-color: #ffffff;
+    outline: none;
+}
+
+.grosync-input.is-invalid {
+    border-color: #ef4444;
+}
+
+.btn-batal {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1.5px solid #e5e7eb;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+.btn-batal:hover {
+    background-color: #e5e7eb;
+    color: #1f2937;
+}
+
+.btn-simpan {
+    background-color: #4a7c2f;
+    color: #ffffff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 6px rgba(74, 124, 47, 0.3);
+}
+.btn-simpan:hover {
+    background-color: #3a6424;
+    color: #ffffff;
+}
+
+/* Modal Hapus */
+.delete-icon-wrap {
+    width: 60px;
+    height: 60px;
+    background-color: #fee2e2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 1.6rem;
+    color: #dc2626;
+}
+
+.btn-danger-solid {
+    background-color: #dc2626;
+    color: #ffffff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+.btn-danger-solid:hover {
+    background-color: #b91c1c;
+    color: #ffffff;
+}
+
+/* Pagination */
+.pagination .page-link {
+    color: #4a7c2f;
+    border-color: #e5e7eb;
+    font-size: 0.85rem;
+}
+.pagination .page-item.active .page-link {
+    background-color: #4a7c2f;
+    border-color: #4a7c2f;
+    color: #ffffff;
+}

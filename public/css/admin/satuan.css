@@ -1,0 +1,280 @@
+/* public/css/admin/satuan.css */
+
+/* Page Header */
+.page-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a2e0f;
+}
+
+.breadcrumb {
+    font-size: 0.8rem;
+}
+.breadcrumb-item a {
+    color: #4a7c2f;
+    text-decoration: none;
+}
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+.breadcrumb-item.active {
+    color: #6b7280;
+}
+
+/* Tombol Tambah */
+.btn-tambah {
+    background-color: #4a7c2f;
+    color: #ffffff;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition:
+        background-color 0.2s,
+        transform 0.15s,
+        box-shadow 0.2s;
+    box-shadow: 0 2px 6px rgba(74, 124, 47, 0.3);
+}
+
+.btn-tambah:hover {
+    background-color: #3a6424;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(74, 124, 47, 0.35);
+}
+
+/* Table Card */
+.table-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+/* Table */
+.grosync-table {
+    font-size: 0.88rem;
+}
+
+.grosync-table thead th {
+    background-color: #f8f9fa;
+    color: #374151;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 13px 16px;
+    border-bottom: 2px solid #e5e7eb;
+    white-space: nowrap;
+}
+
+.grosync-table tbody td {
+    padding: 13px 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+}
+
+.grosync-table tbody tr:last-child td {
+    border-bottom: none;
+}
+.grosync-table tbody tr {
+    transition: background-color 0.15s;
+}
+.grosync-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+.fw-500 {
+    font-weight: 500;
+}
+
+/* Tombol Aksi */
+.btn-aksi {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 7px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition:
+        background-color 0.2s,
+        transform 0.15s;
+    padding: 0;
+}
+
+.btn-aksi:hover {
+    transform: translateY(-1px);
+}
+.btn-aksi-edit {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+.btn-aksi-edit:hover {
+    background-color: #a7f3d0;
+}
+.btn-aksi-hapus {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+.btn-aksi-hapus:hover {
+    background-color: #fecaca;
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #9ca3af;
+}
+.empty-state i {
+    font-size: 2.5rem;
+    opacity: 0.4;
+}
+.empty-state p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Modal */
+.grosync-modal {
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.grosync-modal .modal-header {
+    background-color: #2d5a1b;
+    color: #ffffff;
+    padding: 16px 20px;
+    border-bottom: none;
+}
+
+.grosync-modal .modal-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.grosync-modal .modal-body {
+    padding: 24px 20px 16px;
+}
+.grosync-modal .modal-footer {
+    padding: 12px 20px 20px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.grosync-modal .form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.grosync-input {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 0.88rem;
+    color: #374151;
+    background-color: #fafafa;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.grosync-input:focus {
+    border-color: #4a7c2f;
+    box-shadow: 0 0 0 3px rgba(74, 124, 47, 0.12);
+    background-color: #ffffff;
+    outline: none;
+}
+
+.grosync-input.is-invalid {
+    border-color: #ef4444;
+}
+
+.btn-batal {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1.5px solid #e5e7eb;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+.btn-batal:hover {
+    background-color: #e5e7eb;
+    color: #1f2937;
+}
+
+.btn-simpan {
+    background-color: #4a7c2f;
+    color: #ffffff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 6px rgba(74, 124, 47, 0.3);
+}
+.btn-simpan:hover {
+    background-color: #3a6424;
+    color: #ffffff;
+}
+
+/* Modal Hapus */
+.delete-icon-wrap {
+    width: 60px;
+    height: 60px;
+    background-color: #fee2e2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 1.6rem;
+    color: #dc2626;
+}
+
+.btn-danger-solid {
+    background-color: #dc2626;
+    color: #ffffff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+.btn-danger-solid:hover {
+    background-color: #b91c1c;
+    color: #ffffff;
+}
+
+/* Pagination */
+.pagination .page-link {
+    color: #4a7c2f;
+    border-color: #e5e7eb;
+    font-size: 0.85rem;
+}
+.pagination .page-item.active .page-link {
+    background-color: #4a7c2f;
+    border-color: #4a7c2f;
+    color: #ffffff;
+}
+.pagination .page-link:focus {
+    box-shadow: 0 0 0 0.2rem rgba(74, 124, 47, 0.2);
+}
