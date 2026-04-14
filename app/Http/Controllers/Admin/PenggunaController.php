@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -39,6 +40,8 @@ class PenggunaController extends Controller
             'status'   => 'aktif',
         ]);
 
+        LogAktivitas::catat('pengguna', "Menambahkan pengguna \"{$request->username}\" dengan role {$request->role}.");
+
         return redirect()->route('admin.pengguna.index')
             ->with('success', 'Pengguna berhasil ditambahkan!');
     }
@@ -68,24 +71,19 @@ class PenggunaController extends Controller
 
         $pengguna->update($data);
 
+        LogAktivitas::catat('pengguna', "Mengubah data pengguna \"{$pengguna->username}\".");
+
         return redirect()->route('admin.pengguna.index')
             ->with('success', 'Pengguna berhasil diperbarui!');
     }
 
-    /**
-     * Toggle status aktif / nonaktif
-     * BUG FIX 1 — Simpan status lama SEBELUM update
-     * BUG FIX 3 — Cegah admin nonaktifkan dirinya sendiri
-     */
     public function toggleStatus(User $pengguna)
     {
-        // BUG FIX 3: Cegah self-deactivation
         if ($pengguna->id === Auth::id()) {
             return redirect()->route('admin.pengguna.index')
                 ->with('error', 'Anda tidak dapat menonaktifkan akun Anda sendiri!');
         }
 
-        // BUG FIX 1: Simpan status SEBELUM diubah untuk label yang benar
         $statusLama = $pengguna->status;
 
         $pengguna->update([
@@ -94,13 +92,14 @@ class PenggunaController extends Controller
 
         $statusLabel = $statusLama === 'aktif' ? 'dinonaktifkan' : 'diaktifkan';
 
+        LogAktivitas::catat('pengguna', "Pengguna \"{$pengguna->username}\" {$statusLabel}.");
+
         return redirect()->route('admin.pengguna.index')
             ->with('success', "Pengguna {$pengguna->username} berhasil {$statusLabel}!");
     }
 
     public function destroy(User $pengguna)
     {
-        // Cegah hapus akun sendiri
         if ($pengguna->id === Auth::id()) {
             return redirect()->route('admin.pengguna.index')
                 ->with('error', 'Anda tidak dapat menghapus akun Anda sendiri!');
@@ -108,6 +107,8 @@ class PenggunaController extends Controller
 
         $nama = $pengguna->username;
         $pengguna->delete();
+
+        LogAktivitas::catat('pengguna', "Menghapus pengguna \"{$nama}\".");
 
         return redirect()->route('admin.pengguna.index')
             ->with('success', "Pengguna {$nama} berhasil dihapus!");

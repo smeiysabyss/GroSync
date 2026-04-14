@@ -37,6 +37,13 @@
                     <span class="sidebar-label">Laporan Transaksi</span>
                 </a>
             </li>
+            <li class="sidebar-item">
+                <a href="{{ route('owner.laporan.laba') }}"
+                   class="sidebar-link {{ request()->routeIs('owner.laporan.laba') ? 'active' : '' }}">
+                    <span class="sidebar-icon"><i class="bi bi-graph-up-arrow"></i></span>
+                    <span class="sidebar-label">Laporan Laba</span>
+                </a>
+            </li>
         </ul>
 
         {{-- Aktivitas --}}

@@ -37,8 +37,8 @@ class ProdukController extends Controller
                     return [
                         'id_harga_produk' => $hp->id_harga_produk,
                         'satuan'          => $hp->unit->satuan,
-                        'harga'           => $hp->harga,
-                        'harga_fmt'       => 'Rp ' . number_format($hp->harga, 0, ',', '.'),
+                        'harga_jual'      => $hp->harga_jual, 
+                        'harga_fmt'       => 'Rp ' . number_format($hp->harga_jual, 0, ',', '.'), 
                         'stok'            => $hp->stok,
                     ];
                 })->values(),

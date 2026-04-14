@@ -14,9 +14,9 @@ class Transaksi extends Model
         'nomor_unik',
         'nama_pelanggan',
         'uang_bayar',
-        'total',        // ← baru
-        'kembalian',    // ← baru
-        'status',       // ← baru
+        'total',        
+        'kembalian',    
+        'status',      
     ];
 
     protected $casts = [

@@ -1,10 +1,3 @@
-/**
- * public/js/kasir/transaksi.js
- * Logic modal transaksi + alert sukses
- *
- * Requires: trxTotal (didefinisikan di blade via <script>const trxTotal = ...;</script>)
- */
-
 // ============================================================
 // STATE
 // ============================================================

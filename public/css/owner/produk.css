@@ -1,5 +1,3 @@
-/* public/css/owner/produk.css */
-
 /* ============================================================
    Filter
    ============================================================ */
@@ -143,4 +141,64 @@
 .ow-exp-date {
     font-size: 0.8rem;
     color: #6b7280;
+}
+/* ============================================================
+   Harga Beli & Harga Jual
+   ============================================================ */
+.ow-harga-beli {
+    color: #dc2626;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.ow-harga-jual strong {
+    color: #3a6b1a;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.ow-margin-badge {
+    display: inline-block;
+    background: #e8f5d9;
+    color: #3a6b1a;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 12px;
+    margin-left: 6px;
+}
+
+/* ============================================================
+   Tabel - Kolom harga lebih rapi
+   ============================================================ */
+.ow-table th {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ow-harga-row {
+    font-size: 0.8rem;
+    line-height: 1.8;
+    border-bottom: 1px dashed #f3f4f6;
+    padding: 4px 0;
+}
+
+.ow-harga-row:last-child {
+    border-bottom: none;
+}
+
+/* Responsive untuk tablet */
+@media (max-width: 1024px) {
+    .ow-table th,
+    .ow-table td {
+        font-size: 0.75rem;
+    }
+
+    .ow-harga-beli,
+    .ow-harga-jual strong {
+        font-size: 0.75rem;
+    }
 }

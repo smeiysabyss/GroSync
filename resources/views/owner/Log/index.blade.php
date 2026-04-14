@@ -78,7 +78,7 @@
                     <th>Role</th>
                     <th>Modul</th>
                     <th>Aktivitas</th>
-                    <th>Waktu</th>
+                    <th>Tanggal</th>
                 </tr>
             </thead>
             <tbody>
@@ -112,7 +112,7 @@
                     </td>
                     <td class="ow-td-activity">{{ $log->activity }}</td>
                     <td class="ow-td-waktu">
-                        {{ \Carbon\Carbon::parse($log->created_at)->format('d/m/Y H:i:s') }}
+                        {{ \Carbon\Carbon::parse($log->created_at)->format('d/m/Y') }}
                     </td>
                 </tr>
                 @empty

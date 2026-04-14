@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Kasir;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\HargaProduk;
+use App\Models\Admin\StokMasuk;
 use App\Models\Transaksi;
 use App\Models\DetailTransaksi;
 use App\Models\LogAktivitas;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class TransaksiController extends Controller
 {
@@ -60,15 +62,41 @@ class TransaksiController extends Controller
             ]);
 
             foreach ($keranjang as $item) {
+                // 1. Simpan detail transaksi dengan harga jual
                 DetailTransaksi::create([
                     'id_transaksi'    => $transaksi->id_transaksi,
                     'id_harga_produk' => $item['id_harga_produk'],
                     'jumlah'          => $item['jumlah'],
+                    'hrg_jual'        => $item['harga_jual'],
                     'subtotal'        => $item['subtotal'],
                 ]);
 
+                // 2. Kurangi stok di harga_produk
                 HargaProduk::where('id_harga_produk', $item['id_harga_produk'])
                     ->decrement('stok', $item['jumlah']);
+
+                // 3. FIFO: Kurangi sisa_stok dari batch stok masuk (urutan dari yang terlama)
+                $sisaJumlah = $item['jumlah'];
+                $batches = StokMasuk::where('id_harga_produk', $item['id_harga_produk'])
+                    ->where(function ($q) {
+                        $q->where('sisa_stok', '>', 0)
+                          ->orWhereNull('sisa_stok');
+                    })
+                    ->orderBy('tanggal_masuk', 'asc')
+                    ->get();
+
+                foreach ($batches as $batch) {
+                    if ($sisaJumlah <= 0) break;
+
+                    $stokTersedia = $batch->sisa_stok ?? $batch->jumlah;
+                    $ambil = min($sisaJumlah, $stokTersedia);
+
+                    // Update sisa_stok
+                    $batch->sisa_stok = $stokTersedia - $ambil;
+                    $batch->save();
+
+                    $sisaJumlah -= $ambil;
+                }
             }
 
             LogAktivitas::catat(
@@ -131,19 +159,52 @@ class TransaksiController extends Controller
     }
 
     // ================================================================
-    // RIWAYAT — hanya transaksi hari ini milik kasir yang login
+    // RIWAYAT — dengan filter periode
     // ================================================================
 
-    public function riwayat()
+    public function riwayat(Request $request)
     {
-        $transaksis = Transaksi::with([
+        $periode = $request->get('periode', 'hari_ini');
+
+        $query = Transaksi::with([
                 'detail.hargaProduk.produk',
                 'detail.hargaProduk.unit',
             ])
             ->where('id_users', Auth::id())
-            ->whereDate('created_at', today())
-            ->orderByDesc('created_at')
-            ->get();
+            ->orderBy('created_at');
+
+        switch ($periode) {
+            case 'minggu':
+                $query->whereBetween('created_at', [
+                    Carbon::now()->startOfWeek(),
+                    Carbon::now()->endOfWeek(),
+                ]);
+                $labelPeriode = 'Minggu Ini';
+                $subtitlePeriode = Carbon::now()->startOfWeek()->format('d M') . ' – ' . Carbon::now()->endOfWeek()->format('d M Y');
+                break;
+
+            case 'bulan':
+                $query->whereMonth('created_at', Carbon::now()->month)
+                      ->whereYear('created_at', Carbon::now()->year);
+                $labelPeriode    = 'Bulan Ini';
+                $subtitlePeriode = Carbon::now()->translatedFormat('F Y');
+                break;
+
+            case 'tahun':
+                $query->whereYear('created_at', Carbon::now()->year);
+                $labelPeriode    = 'Tahun Ini';
+                $subtitlePeriode = Carbon::now()->format('Y');
+                break;
+
+            default:
+                $periode = 'hari_ini';
+                $query->whereDate('created_at', today());
+                $labelPeriode    = 'Hari Ini';
+                $subtitlePeriode = Carbon::now()->translatedFormat('l, d F Y');
+                break;
+        }
+
+        $transaksis = $query->get();
 
         $totalTransaksi    = $transaksis->where('status', 'selesai')->count();
         $pendapatanHariIni = $transaksis->where('status', 'selesai')->sum('total');
@@ -153,7 +214,10 @@ class TransaksiController extends Controller
             'transaksis',
             'totalTransaksi',
             'pendapatanHariIni',
-            'totalKeranjang'
+            'totalKeranjang',
+            'periode',
+            'labelPeriode',
+            'subtitlePeriode'
         ));
     }
 }

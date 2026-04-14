@@ -1,5 +1,3 @@
-// public/js/admin/sidebar.js
-
 (function () {
     "use strict";
 

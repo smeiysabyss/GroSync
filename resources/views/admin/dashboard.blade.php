@@ -1,4 +1,3 @@
-{{-- resources/views/admin/dashboard.blade.php --}}
 @extends('layouts.admin')
 
 @section('title', 'Dashboard Admin')
@@ -16,183 +15,204 @@
 </div>
 
 {{-- ============================================================
-     Info Cards
+     STATS CARDS (3 card - presisi col-md-4)
      ============================================================ --}}
 <div class="row g-3 mb-4">
-
-    {{-- Total Produk --}}
+    {{-- Card 1: Total Produk --}}
     <div class="col-12 col-md-4">
-        <div class="info-card info-card-produk active" id="card-produk" onclick="switchPanel('produk')">
-            <div class="info-card-icon">
+        <div class="stat-card stat-card-produk">
+            <div class="stat-card-icon">
                 <i class="bi bi-box-seam-fill"></i>
             </div>
-            <div class="info-card-content">
-                <div class="info-card-label">Total Produk</div>
-                <div class="info-card-value">{{ $totalProduk }}</div>
-                <div class="info-card-sub">{{ $totalKategori }} kategori tersedia</div>
+            <div class="stat-card-info">
+                <div class="stat-card-label">TOTAL PRODUK</div>
+                <div class="stat-card-value">{{ $totalProduk }}</div>
+                <div class="stat-card-sub">{{ $totalKategori }} Kategori</div>
             </div>
-            <div class="info-card-arrow"><i class="bi bi-chevron-right"></i></div>
         </div>
     </div>
 
-    {{-- Stok Menipis --}}
+    {{-- Card 2: Stok Menipis --}}
     <div class="col-12 col-md-4">
-        <div class="info-card info-card-stok {{ $stokMenipis->count() > 0 ? 'has-alert' : '' }}" id="card-stok" onclick="switchPanel('stok')">
-            <div class="info-card-icon">
+        <div class="stat-card stat-card-stok">
+            <div class="stat-card-icon">
                 <i class="bi bi-exclamation-triangle-fill"></i>
             </div>
-            <div class="info-card-content">
-                <div class="info-card-label">Stok Menipis</div>
-                <div class="info-card-value">{{ $stokMenipis->count() }}</div>
-                <div class="info-card-sub">Produk dengan stok &lt; 10</div>
+            <div class="stat-card-info">
+                <div class="stat-card-label">STOK MENIPIS</div>
+                <div class="stat-card-value {{ $stokMenipis->count() > 0 ? 'text-warning' : '' }}">
+                    {{ $stokMenipis->count() }}
+                </div>
+                <div class="stat-card-sub">Stok &lt; 10</div>
             </div>
-            <div class="info-card-arrow"><i class="bi bi-chevron-right"></i></div>
         </div>
     </div>
 
-    {{-- Produk Kadaluarsa --}}
+    {{-- Card 3: Akan Kadaluarsa --}}
     <div class="col-12 col-md-4">
-        <div class="info-card info-card-exp {{ $produkKadaluarsa->count() > 0 ? 'has-alert' : '' }}" id="card-exp" onclick="switchPanel('exp')">
-            <div class="info-card-icon">
+        <div class="stat-card stat-card-exp">
+            <div class="stat-card-icon">
                 <i class="bi bi-calendar-x-fill"></i>
             </div>
-            <div class="info-card-content">
-                <div class="info-card-label">Produk Kadaluarsa</div>
-                <div class="info-card-value">{{ $produkKadaluarsa->count() }}</div>
-                <div class="info-card-sub">Kadaluarsa dalam 30 hari</div>
+            <div class="stat-card-info">
+                <div class="stat-card-label">AKAN KADALUARSA</div>
+                <div class="stat-card-value {{ $produkKadaluarsa->count() > 0 ? 'text-danger' : '' }}">
+                    {{ $produkKadaluarsa->count() }}
+                </div>
+                <div class="stat-card-sub">30 hari ke depan</div>
             </div>
-            <div class="info-card-arrow"><i class="bi bi-chevron-right"></i></div>
         </div>
     </div>
-
 </div>
 
 {{-- ============================================================
-     Dynamic Panel (Tabel)
+     PANEL NAVIGATION (TABS)
      ============================================================ --}}
 <div class="panel-card">
-
-    {{-- Panel Header --}}
-    <div class="panel-header" id="panelHeader">
-        <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-box-seam-fill panel-header-icon" id="panelIcon"></i>
-            <span class="panel-header-title" id="panelTitle">Total Produk</span>
-        </div>
-        <span class="panel-header-count badge-count" id="panelCount"></span>
+    <div class="panel-tabs">
+        <button class="panel-tab active" data-panel="produk" onclick="switchPanel('produk')">
+            <i class="bi bi-box-seam-fill me-2"></i>Total Produk
+            <span class="tab-badge">{{ $semuaProduk->count() }}</span>
+        </button>
+        <button class="panel-tab" data-panel="stok" onclick="switchPanel('stok')">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>Stok Menipis
+            <span class="tab-badge tab-badge-warning">{{ $stokMenipis->count() }}</span>
+        </button>
+        <button class="panel-tab" data-panel="exp" onclick="switchPanel('exp')">
+            <i class="bi bi-calendar-x-fill me-2"></i>Kadaluarsa
+            <span class="tab-badge tab-badge-danger">{{ $produkKadaluarsa->count() }}</span>
+        </button>
     </div>
 
-    {{-- ============ PANEL: Total Produk ============ --}}
-    <div id="panel-produk" class="panel-content">
-        <div class="table-responsive">
-            <table class="table grosync-table mb-0">
-                <thead>
-                    <tr>
-                        <th width="50">No</th>
-                        <th>Nama Produk</th>
-                        <th>Kategori</th>
-                        <th>Harga Mulai</th>
-                        <th>Total Stok</th>
-                        <th>Exp. Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($semuaProduk as $i => $p)
-                    <tr>
-                        <td>{{ $i + 1 }}</td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="tbl-avatar">{{ strtoupper(substr($p->nama_produk, 0, 1)) }}</div>
-                                <span class="fw-500">{{ $p->nama_produk }}</span>
-                            </div>
-                        </td>
-                        <td>
-                            <span class="badge-kategori">{{ $p->kategori->nama_kategori ?? '-' }}</span>
-                        </td>
-                        <td>
-                            @if($p->hargaProduk->isNotEmpty())
-                                Rp {{ number_format($p->hargaProduk->min('harga'), 0, ',', '.') }}
-                            @else
-                                <span class="text-muted">-</span>
-                            @endif
-                        </td>
-                        <td>
-                            @php $totalStok = $p->hargaProduk->sum('stok'); @endphp
-                            <span class="badge-stok {{ $totalStok < 10 ? 'badge-stok-low' : '' }}">
-                                {{ number_format($totalStok) }}
-                            </span>
-                        </td>
-                        <td>
-                            @if($p->tanggal_kadaluarsa)
-                                @php
-                                    $exp  = \Carbon\Carbon::parse($p->tanggal_kadaluarsa);
-                                    $days = now()->diffInDays($exp, false);
-                                @endphp
-                                <span class="{{ $days <= 30 ? 'text-danger fw-600' : 'text-muted' }}">
-                                    {{ $exp->format('d/m/Y') }}
-                                    @if($days <= 30 && $days >= 0)
-                                        <small>({{ $days }}h lagi)</small>
-                                    @elseif($days < 0)
-                                        <small>(Kadaluarsa)</small>
-                                    @endif
+   {{-- ============ PANEL: Total Produk ============ --}}
+<div id="panel-produk" class="panel-content">
+    <div class="table-responsive">
+        <table class="table dashboard-table">
+            <thead>
+                <tr>
+                    <th width="40">NO</th>
+                    <th>PRODUK</th>
+                    <th>KATEGORI</th>
+                    <th>SATUAN</th>
+                    <th>HARGA BELI</th>
+                    <th>HARGA JUAL</th>
+                    <th>STOK</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($semuaProduk as $i => $p)
+                    @if($p->hargaProduk->count() > 0)
+                        {{-- Produk dengan harga --}}
+                        @foreach($p->hargaProduk as $hp)
+                        <tr>
+                            <td class="text-center">{{ $i + 1 }}</td>
+                            <td>
+                                <div class="product-cell">
+                                    <div class="product-avatar">{{ strtoupper(substr($p->nama_produk, 0, 1)) }}</div>
+                                    <div class="product-name">{{ $p->nama_produk }}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge-kategori">{{ $p->kategori->nama_kategori ?? '-' }}</span>
+                            </td>
+                            <td>
+                                <span class="badge-satuan">{{ $hp->unit->satuan ?? '-' }}</span>
+                            </td>
+                            <td class="harga-beli-cell">
+                                Rp {{ number_format($hp->harga, 0, ',', '.') }}
+                            </td>
+                            <td class="harga-jual-cell">
+                                Rp {{ number_format($hp->harga_jual ?? $hp->harga, 0, ',', '.') }}
+                            </td>
+                            <td>
+                                <span class="stok-badge {{ $hp->stok < 10 ? 'stok-low' : '' }}">
+                                    {{ number_format($hp->stok) }}
                                 </span>
-                            @else
-                                <span class="text-muted">-</span>
-                            @endif
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="text-center py-4">
-                            <div class="empty-inline">
-                                <i class="bi bi-box-seam"></i>
-                                <span>Belum ada produk</span>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @else
+                        {{-- Produk TANPA harga --}}
+                        <tr>
+                            <td class="text-center">{{ $i + 1 }}</td>
+                            <td>
+                                <div class="product-cell">
+                                    <div class="product-avatar">{{ strtoupper(substr($p->nama_produk, 0, 1)) }}</div>
+                                    <div class="product-name">{{ $p->nama_produk }}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge-kategori">{{ $p->kategori->nama_kategori ?? '-' }}</span>
+                            </td>
+                            <td colspan="4" class="text-muted">
+                                <i class="bi bi-info-circle me-1"></i>Belum ada data harga
+                            </td>
+                        </tr>
+                    @endif
+                @empty
+                <tr>
+                    <td colspan="7" class="text-center py-5">
+                        <div class="empty-state">
+                            <i class="bi bi-box-seam"></i>
+                            <p>Belum ada produk</p>
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
+</div>
 
     {{-- ============ PANEL: Stok Menipis ============ --}}
     <div id="panel-stok" class="panel-content d-none">
         <div class="table-responsive">
-            <table class="table grosync-table mb-0">
+            <table class="table dashboard-table">
                 <thead>
                     <tr>
-                        <th width="50">No</th>
-                        <th>Nama Produk</th>
-                        <th>Satuan</th>
-                        <th>Stok Tersisa</th>
-                        <th>Harga</th>
+                        <th width="40">NO</th>
+                        <th>PRODUK</th>
+                        <th>SATUAN</th>
+                        <th>HARGA BELI</th>
+                        <th>HARGA JUAL</th>
+                        <th>STOK</th>
+                        <th>STATUS</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($stokMenipis as $i => $hp)
                     <tr>
-                        <td>{{ $i + 1 }}</td>
+                        <td class="text-center">{{ $i + 1 }}</td>
                         <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="tbl-avatar tbl-avatar-warn">{{ strtoupper(substr($hp->produk->nama_produk, 0, 1)) }}</div>
-                                <span class="fw-500">{{ $hp->produk->nama_produk ?? '-' }}</span>
+                            <div class="product-cell">
+                                <div class="product-avatar product-avatar-warning">{{ strtoupper(substr($hp->produk->nama_produk, 0, 1)) }}</div>
+                                <div class="product-name">{{ $hp->produk->nama_produk }}</div>
                             </div>
                         </td>
-                        <td>{{ $hp->unit->satuan ?? '-' }}</td>
                         <td>
-                            <span class="stok-badge {{ $hp->stok == 0 ? 'stok-habis' : 'stok-menipis' }}">
+                            <span class="badge-satuan">{{ $hp->unit->satuan ?? '-' }}</span>
+                        </td>
+                        <td class="harga-beli-cell">Rp {{ number_format($hp->harga, 0, ',', '.') }}</td>
+                        <td class="harga-jual-cell">Rp {{ number_format($hp->harga_jual ?? $hp->harga, 0, ',', '.') }}</td>
+                        <td>
+                            <span class="stok-badge {{ $hp->stok == 0 ? 'stok-habis' : 'stok-low' }}">
                                 {{ $hp->stok }} {{ $hp->unit->satuan ?? '' }}
-                                @if($hp->stok == 0) <i class="bi bi-exclamation-circle ms-1"></i> @endif
                             </span>
                         </td>
-                        <td>Rp {{ number_format($hp->harga, 0, ',', '.') }}</td>
+                        <td>
+                            @if($hp->stok == 0)
+                                <span class="status-badge status-danger">Habis</span>
+                            @else
+                                <span class="status-badge status-warning">Menipis</span>
+                            @endif
+                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center py-4">
-                            <div class="empty-inline text-success">
+                        <td colspan="7" class="text-center py-5">
+                            <div class="empty-state text-success">
                                 <i class="bi bi-check-circle-fill"></i>
-                                <span>Semua stok dalam kondisi baik!</span>
+                                <p>Semua stok dalam kondisi baik!</p>
                             </div>
                         </td>
                     </tr>
@@ -205,82 +225,85 @@
     {{-- ============ PANEL: Produk Kadaluarsa ============ --}}
     <div id="panel-exp" class="panel-content d-none">
         <div class="table-responsive">
-            <table class="table grosync-table mb-0">
+            <table class="table dashboard-table">
                 <thead>
                     <tr>
-                        <th width="50">No</th>
-                        <th>Nama Produk</th>
-                        <th>Kategori</th>
-                        <th>Tanggal Kadaluarsa</th>
-                        <th>Sisa Hari</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($produkKadaluarsa as $i => $p)
+                        <th width="40">NO</th>
+                    <th>PRODUK</th>
+                    <th>KATEGORI</th>
+                    <th>SATUAN</th>
+                    <th>JUMLAH</th>
+                    <th>TANGGAL KADALUARSA</th>
+                    <th>SUMBER</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($produkKadaluarsa as $i => $item)
                     @php
-                        $exp  = \Carbon\Carbon::parse($p->tanggal_kadaluarsa);
-                        $days = now()->diffInDays($exp, false);
+                        $expDate = \Carbon\Carbon::parse($item->tanggal_kadaluarsa);
                     @endphp
                     <tr>
-                        <td>{{ $i + 1 }}</td>
+                        <td class="text-center">{{ $i + 1 }}</td>
                         <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="tbl-avatar tbl-avatar-danger">{{ strtoupper(substr($p->nama_produk, 0, 1)) }}</div>
-                                <span class="fw-500">{{ $p->nama_produk }}</span>
+                            <div class="product-cell">
+                                <div class="product-avatar product-avatar-danger">
+                                    {{ strtoupper(substr($item->produk->nama_produk ?? '-', 0, 1)) }}
+                                </div>
+                                <div class="product-name">{{ $item->produk->nama_produk ?? '-' }}</div>
                             </div>
                         </td>
                         <td>
-                            <span class="badge-kategori">{{ $p->kategori->nama_kategori ?? '-' }}</span>
+                            <span class="badge-kategori">{{ $item->kategori->nama_kategori ?? '-' }}</span>
                         </td>
-                        <td class="text-danger fw-600">{{ $exp->format('d/m/Y') }}</td>
                         <td>
-                            @if($days < 0)
-                                <span class="exp-badge exp-habis">Sudah kadaluarsa</span>
-                            @elseif($days <= 7)
-                                <span class="exp-badge exp-kritis">{{ $days }} hari lagi</span>
+                            @if($item->sumber == 'batch')
+                                <span class="badge-satuan">{{ $item->satuan }}</span>
                             @else
-                                <span class="exp-badge exp-warning">{{ $days }} hari lagi</span>
+                                <span class="text-muted">-</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($item->sumber == 'batch')
+                                <span class="text-muted small">{{ number_format($item->jumlah_batch) }}</span>
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </td>
+                        <td class="exp-date">
+                            {{ $expDate->format('d/m/Y') }}
+                        </td>
+                        <td>
+                            @if($item->sumber == 'produk')
+                                <span class="badge-produk">Kadaluarsa Produk</span>
+                            @else
+                                <span class="badge-batch">Per Batch</span>
                             @endif
                         </td>
                     </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="text-center py-4">
-                            <div class="empty-inline text-success">
-                                <i class="bi bi-check-circle-fill"></i>
-                                <span>Tidak ada produk yang akan kadaluarsa!</span>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                @empty
+                <tr>
+                    <td colspan="7" class="text-center py-5">
+                        <div class="empty-state text-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <p>Tidak ada produk yang akan kadaluarsa!</p>
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
-
+</div>
 </div>
 
 @endsection
 
 @push('scripts')
 <script>
-    // Data panel untuk header dinamis
     const panelConfig = {
-        produk: {
-            icon  : 'bi-box-seam-fill',
-            title : 'Total Produk',
-            count : {{ $totalProduk }},
-        },
-        stok: {
-            icon  : 'bi-exclamation-triangle-fill',
-            title : 'Stok Menipis',
-            count : {{ $stokMenipis->count() }},
-        },
-        exp: {
-            icon  : 'bi-calendar-x-fill',
-            title : 'Daftar Produk Kadaluarsa',
-            count : {{ $produkKadaluarsa->count() }},
-        },
+        produk: { title: 'Total Produk', count: {{ $semuaProduk->count() }} },
+        stok: { title: 'Stok Menipis', count: {{ $stokMenipis->count() }} },
+        exp: { title: 'Produk Kadaluarsa', count: {{ $produkKadaluarsa->count() }} },
     };
 </script>
 <script src="{{ asset('js/admin/dashboard.js') }}"></script>

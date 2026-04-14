@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Satuan;
+use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -27,6 +28,8 @@ class SatuanController extends Controller
 
         Satuan::create(['satuan' => $request->satuan]);
 
+        LogAktivitas::catat('satuan', "Menambahkan satuan \"{$request->satuan}\".");
+
         return redirect()->route('admin.satuan.index')
             ->with('success', "Satuan \"{$request->satuan}\" berhasil ditambahkan!");
     }
@@ -43,7 +46,10 @@ class SatuanController extends Controller
             'satuan.unique'   => 'Nama satuan sudah ada.',
         ]);
 
+        $namaLama = $satuan->satuan;
         $satuan->update(['satuan' => $request->satuan]);
+
+        LogAktivitas::catat('satuan', "Mengubah satuan \"{$namaLama}\" menjadi \"{$request->satuan}\".");
 
         return redirect()->route('admin.satuan.index')
             ->with('success', "Satuan berhasil diperbarui menjadi \"{$request->satuan}\"!");
@@ -51,7 +57,6 @@ class SatuanController extends Controller
 
     public function destroy(Satuan $satuan)
     {
-        // Cek apakah satuan masih digunakan di harga_produk
         if ($satuan->hargaProduk()->count() > 0) {
             return redirect()->route('admin.satuan.index')
                 ->with('error', "Satuan \"{$satuan->satuan}\" tidak dapat dihapus karena masih digunakan pada data harga produk!");
@@ -59,6 +64,8 @@ class SatuanController extends Controller
 
         $nama = $satuan->satuan;
         $satuan->delete();
+
+        LogAktivitas::catat('satuan', "Menghapus satuan \"{$nama}\".");
 
         return redirect()->route('admin.satuan.index')
             ->with('success', "Satuan \"{$nama}\" berhasil dihapus!");

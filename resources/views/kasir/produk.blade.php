@@ -13,31 +13,25 @@
 
 <div class="produk-wrapper" id="produkWrapper">
 
-    {{-- ============================================================
-         AREA KIRI: Grid Produk
-         ============================================================ --}}
+    {{-- Grid Produk --}}
     <div class="produk-area" id="produkArea">
 
-        {{-- Header --}}
         <div class="produk-header">
             <h2 class="produk-title">PRODUK "{{ strtoupper($kategori->nama_kategori) }}"</h2>
         </div>
 
-        {{-- Grid --}}
         <div class="produk-grid" id="produkGrid">
             @forelse($produk as $item)
             @php
-                $hargaList  = $item->hargaProduk;
-                $hargaMin   = $hargaList->min('harga');
-                $totalStok  = $hargaList->sum('stok');
-                $isHabis    = $totalStok <= 0;
+                $hargaList = $item->hargaProduk;
+                $totalStok = $hargaList->sum('stok');
+                $isHabis   = $totalStok <= 0;
             @endphp
 
             <div class="produk-card {{ $isHabis ? 'produk-card--habis' : '' }}"
                  data-nama="{{ strtolower($item->nama_produk) }}"
                  onclick="openDetailModal({{ $item->id_produk }})">
 
-                {{-- Badge stok habis --}}
                 @if($isHabis)
                     <div class="produk-badge-habis">Stok Habis</div>
                 @else
@@ -46,7 +40,6 @@
                     </div>
                 @endif
 
-                {{-- Gambar --}}
                 <div class="produk-card-img-wrap">
                     @if($item->gambar)
                         <img src="{{ Storage::url($item->gambar) }}" alt="{{ $item->nama_produk }}" class="produk-card-img">
@@ -57,21 +50,16 @@
                     @endif
                 </div>
 
-                {{-- Info --}}
                 <div class="produk-card-body">
                     <div class="produk-card-name">{{ $item->nama_produk }}</div>
-
-                    {{-- Harga per satuan --}}
                     <div class="produk-card-prices">
                         @foreach($hargaList as $hp)
                         <div class="produk-card-price-row">
                             Rp {{ number_format($hp->harga, 0, ',', '.') }} / {{ $hp->unit->satuan }}
-                            <span class="produk-card-stok">| sisa {{ $hp->stok }} {{ $hp->unit->satuan }}</span>
+                            <span class="produk-card-stok"></span>
                         </div>
                         @endforeach
                     </div>
-
-                    {{-- Tombol tambah --}}
                     @if(!$isHabis)
                     <button class="produk-btn-tambah"
                             onclick="event.stopPropagation(); openTambahModal({{ $item->id_produk }})"
@@ -91,117 +79,175 @@
         </div>
 
     </div>
-
-    {{-- ============================================================
-         PANEL KANAN: Keranjang (slide in)
-         ============================================================ --}}
-    <div class="cart-panel" id="cartPanel">
-        <div class="cart-panel-header">
-            <span class="cart-panel-title">Atur Jumlah dan Catatan</span>
-            <button class="cart-panel-close" onclick="toggleCartPanel()" title="Tutup">
-                <i class="bi bi-x-lg"></i>
-            </button>
-        </div>
-
-        <div class="cart-panel-body" id="cartPanelBody">
-            @php $keranjang = session('keranjang', []); @endphp
-
-            @if(empty($keranjang))
-                <div class="cart-panel-empty">
-                    <i class="bi bi-cart3"></i>
-                    <p>Keranjang masih kosong</p>
-                </div>
-            @else
-                @foreach($keranjang as $key => $item)
-                <div class="cart-item">
-                    <div class="cart-item-check">
-                        <input type="checkbox" class="cart-checkbox" checked>
-                    </div>
-                    <div class="cart-item-img-wrap">
-                        @if($item['gambar'])
-                            <img src="{{ Storage::url($item['gambar']) }}" alt="{{ $item['nama_produk'] }}" class="cart-item-img">
-                        @else
-                            <div class="cart-item-img-placeholder"><i class="bi bi-box-seam"></i></div>
-                        @endif
-                    </div>
-                    <div class="cart-item-info">
-                        <div class="cart-item-name">{{ $item['nama_produk'] }}</div>
-                        <div class="cart-item-satuan">{{ $item['satuan'] }}</div>
-                        <div class="cart-item-harga">Rp {{ number_format($item['harga'], 0, ',', '.') }}</div>
-                        <div class="cart-item-qty">Qty: {{ $item['jumlah'] }}</div>
-                    </div>
-                    <form action="{{ route('kasir.keranjang.hapus') }}" method="POST" class="cart-item-hapus-form">
-                        @csrf
-                        <input type="hidden" name="key" value="{{ $key }}">
-                        <button type="submit" class="cart-item-hapus" title="Hapus">
-                            <i class="bi bi-trash3"></i>
-                        </button>
-                    </form>
-                </div>
-                @endforeach
-            @endif
-        </div>
-
-        {{-- Footer: subtotal + checkout --}}
-        @if(!empty($keranjang))
-        <div class="cart-panel-footer">
-            <div class="cart-subtotal">
-                <span>Subtotal</span>
-                <span class="cart-subtotal-value">
-                    Rp {{ number_format(collect($keranjang)->sum('subtotal'), 0, ',', '.') }}
-                </span>
-            </div>
-            <a href="{{ route('kasir.keranjang') }}" class="cart-checkout-btn">
-                CHECKOUT
-            </a>
-        </div>
-        @endif
-    </div>
-
 </div>
-
-{{-- Overlay backdrop untuk cart panel --}}
-<div class="cart-backdrop" id="cartBackdrop" onclick="toggleCartPanel()"></div>
 
 
 {{-- ============================================================
-     MODAL: Detail Produk
+     MODAL POPUP: Keranjang
      ============================================================ --}}
-<div class="modal fade" id="modalDetailProduk" tabindex="-1" aria-hidden="true">
+<div class="cart-modal-backdrop" id="cartModalBackdrop" onclick="tutupCartModal()"></div>
+
+<div class="cart-modal" id="cartModal">
+    <div class="cart-modal-header">
+        <div class="cart-modal-title">
+            <i class="bi bi-cart3 me-2"></i> Keranjang Belanja
+        </div>
+        <button class="cart-modal-close" onclick="tutupCartModal()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+
+    <div class="cart-modal-body">
+        @php $keranjang = session('keranjang', []); @endphp
+
+        @if(empty($keranjang))
+            <div class="cart-modal-empty">
+                <i class="bi bi-cart3"></i>
+                <p>Keranjang masih kosong</p>
+                <span>Tambahkan produk ke keranjang</span>
+            </div>
+        @else
+            @foreach($keranjang as $key => $item)
+            <div class="cart-modal-item">
+                <div class="cart-modal-item-img">
+                    @if($item['gambar'])
+                        <img src="{{ Storage::url($item['gambar']) }}" alt="{{ $item['nama_produk'] }}">
+                    @else
+                        <div class="cart-modal-item-img-placeholder">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+                    @endif
+                </div>
+                <div class="cart-modal-item-info">
+                    <div class="cart-modal-item-name">{{ $item['nama_produk'] }}</div>
+                    <div class="cart-modal-item-satuan">{{ $item['satuan'] }}</div>
+                    <div class="cart-modal-item-harga">
+                        Rp {{ number_format($item['harga_jual'], 0, ',', '.') }}
+                        <span class="cart-modal-item-qty">× {{ $item['jumlah'] }}</span>
+                    </div>
+                </div>
+                <div class="cart-modal-item-subtotal">
+                    Rp {{ number_format($item['subtotal'], 0, ',', '.') }}
+                </div>
+                <form action="{{ route('kasir.keranjang.hapus') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="key" value="{{ $key }}">
+                    <button type="submit" class="cart-modal-item-hapus" title="Hapus">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </form>
+            </div>
+            @endforeach
+        @endif
+    </div>
+
+    @if(!empty($keranjang))
+    <div class="cart-modal-footer">
+        <div class="cart-modal-subtotal">
+            <span>Total</span>
+            <span class="cart-modal-subtotal-value">
+                Rp {{ number_format(collect($keranjang)->sum('subtotal'), 0, ',', '.') }}
+            </span>
+        </div>
+        <div class="cart-modal-actions">
+            <button class="cart-modal-btn-lanjut" onclick="tutupCartModal()">
+                <i class="bi bi-plus-circle me-1"></i> Tambah Produk
+            </button>
+            <button class="cart-modal-btn-checkout"
+                    onclick="tutupCartModal(); setTimeout(bukaModalTrx, 200);">
+                CHECKOUT <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+        </div>
+    </div>
+    @endif
+</div>
+
+
+{{-- ============================================================
+     MODAL: Detail Produk (REDESIGN)
+     ============================================================ --}}
+<div class="modal fade modal-detail-produk" id="modalDetailProduk" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content produk-modal">
-            <div class="modal-header produk-modal-header">
-                <h6 class="modal-title">Detail Produk</h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header">
+                <h6 class="modal-title">
+                    <i class="bi bi-box-seam me-2"></i> Detail Produk
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-0">
-                <div class="detail-layout">
-                    {{-- Gambar --}}
-                    <div class="detail-img-col">
-                        <div class="detail-img-wrap">
-                            <img id="detailGambar" src="" alt="" class="detail-img">
+                <div class="detail-container">
+                    
+                    {{-- KOLOM KIRI: GAMBAR --}}
+                    <div class="detail-gambar-col">
+                        <div class="detail-gambar-wrap">
+                            <img id="detailGambar" src="" alt="" class="detail-gambar" style="display: none;">
+                            <div id="detailGambarPlaceholder" class="detail-gambar-placeholder">
+                                <i class="bi bi-image"></i>
+                            </div>
                         </div>
-                        <div class="detail-nama" id="detailNama"></div>
+                    </div>
+                    
+                    {{-- KOLOM KANAN: INFO PRODUK --}}
+                    <div class="detail-info-col">
+                        <div class="detail-nama-produk" id="detailNama"></div>
+                        
                         <div class="detail-badges" id="detailBadges"></div>
-                        <div class="detail-meta">
+                        
+                        <div class="detail-meta-grid">
                             <div class="detail-meta-item">
-                                <span class="detail-meta-label">Tanggal Kadaluarsa</span>
+                                <span class="detail-meta-label">
+                                    <i class="bi bi-calendar me-1"></i> Kadaluarsa
+                                </span>
                                 <span class="detail-meta-value" id="detailKadaluarsa">—</span>
                             </div>
                             <div class="detail-meta-item">
-                                <span class="detail-meta-label">Stok</span>
+                                <span class="detail-meta-label">
+                                    <i class="bi bi-boxes me-1"></i> Stok Tersedia
+                                </span>
                                 <span class="detail-meta-value" id="detailStok">—</span>
                             </div>
                         </div>
-                        <div class="detail-deskripsi-label">Deskripsi</div>
-                        <div class="detail-deskripsi" id="detailDeskripsi">—</div>
+                        
+                        <div class="detail-deskripsi-section">
+                            <div class="detail-deskripsi-label">
+                                <i class="bi bi-file-text"></i> Deskripsi
+                            </div>
+                            <div class="detail-deskripsi" id="detailDeskripsi">—</div>
+                        </div>
+                        
+                        <div class="detail-harga-section">
+                            <div class="detail-harga-label">
+                                <i class="bi bi-tags"></i> Daftar Harga & Stok
+                            </div>
+                            <table class="detail-harga-table" id="detailHargaTable">
+                                <thead>
+                                    <tr>
+                                        <th>Satuan</th>
+                                        <th>Harga Jual</th>
+                                        <th>Stok</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailHargaTableBody">
+                                    <tr>
+                                        <td colspan="3" class="text-muted">Memuat data...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="detail-btn-wrap">
+                            <button class="detail-btn-tambah" id="detailBtnTambah">
+                                <i class="bi bi-cart-plus"></i> Tambah ke Keranjang
+                            </button>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 {{-- ============================================================
      MODAL: Tambah ke Keranjang
@@ -214,21 +260,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-
-                {{-- Info produk --}}
                 <div class="tambah-produk-info">
                     <div class="tambah-produk-img-wrap">
                         <img id="tambahGambar" src="" alt="" class="tambah-produk-img">
                     </div>
                     <div class="tambah-produk-nama" id="tambahNama"></div>
                 </div>
-
-                {{-- Pilih satuan --}}
-                <div class="tambah-satuan-list" id="tambahSatuanList">
-                    {{-- Diisi via JS --}}
-                </div>
-
-                {{-- Qty + Tombol --}}
+                <div class="tambah-satuan-list" id="tambahSatuanList"></div>
                 <div class="tambah-footer">
                     <div class="tambah-qty-wrap">
                         <button class="tambah-qty-btn" onclick="kurangQty()" type="button">−</button>
@@ -244,23 +282,22 @@
                         </button>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 
-
+{{-- Modal Transaksi --}}
+@include('kasir.transaksi-modal')
 
 {{-- Data produk untuk JS --}}
 <script>
 const produkData = @json($produkJs);
 </script>
 
-@include('kasir.transaksi-modal')
 @endsection
 
 @push('scripts')
 <script src="{{ asset('js/kasir/produk.js') }}"></script>
-<script src="{{ asset('js/kasir/transaksi.js') }}"></script>  
+<script src="{{ asset('js/kasir/transaksi.js') }}"></script>
 @endpush

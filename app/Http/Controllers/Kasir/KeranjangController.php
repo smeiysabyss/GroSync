@@ -48,16 +48,17 @@ class KeranjangController extends Controller
             }
 
             $keranjang[$key]['jumlah']   = $qtyBaru;
-            $keranjang[$key]['subtotal'] = $qtyBaru * $harga->harga;
+            $keranjang[$key]['subtotal'] = $qtyBaru * $keranjang[$key]['harga_jual'];
         } else {
             $keranjang[$key] = [
                 'id_harga_produk' => $harga->id_harga_produk,
                 'id_produk'       => $harga->id_produk,
                 'nama_produk'     => $harga->produk->nama_produk,
                 'satuan'          => $harga->unit->satuan,
-                'harga'           => (float) $harga->harga,
+                'harga'           => (float) $harga->harga,        
+                'harga_jual'      => (float) $harga->harga_jual,   
                 'jumlah'          => $jumlah,
-                'subtotal'        => $jumlah * (float) $harga->harga,
+                'subtotal'        => $jumlah * (float) $harga->harga_jual, 
                 'stok_tersedia'   => $harga->stok,
                 'gambar'          => $harga->produk->gambar,
             ];
@@ -91,7 +92,7 @@ class KeranjangController extends Controller
         }
 
         $keranjang[$key]['jumlah']        = $request->jumlah;
-        $keranjang[$key]['subtotal']      = $request->jumlah * $keranjang[$key]['harga'];
+        $keranjang[$key]['subtotal']      = $request->jumlah * $keranjang[$key]['harga_jual'];
         $keranjang[$key]['stok_tersedia'] = $harga->stok;
 
         session(['keranjang' => $keranjang]);

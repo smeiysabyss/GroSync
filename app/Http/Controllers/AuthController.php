@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\LogAktivitas;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function showLogin()
     {
-        // Jika sudah login, redirect ke dashboard sesuai role
         if (Auth::check()) {
             return $this->redirectByRole(Auth::user()->role);
         }
-
         return view('auth.login');
     }
 
@@ -25,38 +26,47 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $request->session()->regenerate();
+        $user = User::where('email', $request->email)->first();
 
-            // BUG FIX 2: Cek status akun setelah berhasil login
-            if (Auth::user()->status !== 'aktif') {
-                // Langsung logout jika akun nonaktif
-                Auth::logout();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
-
-                return back()->withErrors([
-                    'email' => 'Akun Anda telah dinonaktifkan. Hubungi administrator.'
-                ]);
-            }
-
-            return $this->redirectByRole(Auth::user()->role);
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'Email tidak terdaftar dalam sistem.',
+            ])->withInput($request->only('email'));
         }
 
-        return back()->withErrors(['email' => 'Email atau password salah!']);
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors([
+                'password' => 'Password yang kamu masukkan salah.',
+            ])->withInput($request->only('email'));
+        }
+
+        if ($user->status !== 'aktif') {
+            return back()->withErrors([
+                'email' => 'Akun Anda telah dinonaktifkan. Hubungi administrator.',
+            ])->withInput($request->only('email'));
+        }
+
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        LogAktivitas::catat('auth', "Login sebagai {$user->role} — {$user->username}.");
+
+        return $this->redirectByRole($user->role);
     }
 
     public function logout(Request $request)
     {
+        $username = Auth::user()->username ?? '-';
+        $role     = Auth::user()->role ?? '-';
+
+        LogAktivitas::catat('auth', "Logout — {$username} ({$role}).");
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/login');
     }
 
-    /**
-     * Redirect berdasarkan role user
-     */
     private function redirectByRole(string $role)
     {
         return match($role) {

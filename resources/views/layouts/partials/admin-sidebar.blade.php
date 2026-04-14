@@ -36,7 +36,7 @@
                 <a href="{{ route('admin.harga.index') }}"
                    class="sidebar-link {{ request()->routeIs('admin.harga.index') ? 'active' : '' }}">
                     <span class="sidebar-icon"><i class="bi bi-tags-fill"></i></span>
-                    <span class="sidebar-label">Kelola Harga</span>
+                    <span class="sidebar-label">Kelola Stok & Harga</span>
                 </a>
             </li>
         </ul>

@@ -11,7 +11,9 @@ class LogController extends Controller
 {
     public function index(Request $request)
     {
-        $query = LogAktivitas::with('user')->latest();
+        // Ubah dari latest() menjadi orderBy('created_at', 'asc')
+        // agar data terbaru ada di paling bawah
+        $query = LogAktivitas::with('user')->orderBy('created_at', 'asc');
 
         if ($request->filled('dari')) {
             $query->whereDate('created_at', '>=', $request->dari);

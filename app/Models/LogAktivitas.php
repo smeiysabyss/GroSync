@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class LogAktivitas extends Model
 {
@@ -23,12 +24,11 @@ class LogAktivitas extends Model
 
     // ============================================================
     // Helper: catat log
-    // Contoh: LogAktivitas::catat('transaksi', 'Melakukan transaksi TRX-...')
     // ============================================================
     public static function catat(string $modul, string $activity): void
     {
         static::create([
-            'id_users' => auth()->id(),
+            'id_users' => Auth::id(),
             'modul'    => $modul,
             'activity' => $activity,
         ]);

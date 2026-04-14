@@ -2,12 +2,18 @@
 
 @section('title', 'Dashboard Kasir')
 
-@section('search_placeholder', 'Cari kategori...')
+@section('search_placeholder', 'Cari kategori / produk...')
+
+@push('styles')
+<link href="{{ asset('css/kasir/transaksi.css') }}" rel="stylesheet">
+<link href="{{ asset('css/kasir/dashboard.css') }}" rel="stylesheet">
+<link href="{{ asset('css/kasir/produk.css') }}" rel="stylesheet">
+@endpush
 
 @section('content')
 <div class="kasir-dashboard">
 
-    {{-- Section Header --}}
+    {{-- Section Header: Kategori --}}
     <div class="kasir-section-header">
         <div class="kasir-section-title">Pilih Kategori</div>
     </div>
@@ -16,24 +22,17 @@
     <div class="kasir-category-grid">
         @forelse($kategori as $item)
         <a href="{{ route('kasir.produk', $item->id_kategori) }}" class="kasir-category-card">
-
             @if($item->gambar)
                 <div class="kasir-category-img-wrap">
-                    <img
-                        src="{{ Storage::url($item->gambar) }}"
-                        alt="{{ $item->nama_kategori }}"
-                        class="kasir-category-img"
-                    >
+                    <img src="{{ Storage::url($item->gambar) }}" alt="{{ $item->nama_kategori }}" class="kasir-category-img">
                 </div>
             @else
                 <div class="kasir-category-icon">
                     <i class="bi bi-grid"></i>
                 </div>
             @endif
-
             <div class="kasir-category-name">{{ $item->nama_kategori }}</div>
             <div class="kasir-category-count">{{ $item->produk_count }} produk</div>
-
         </a>
         @empty
         <div class="kasir-empty-state">
@@ -43,12 +42,78 @@
         @endforelse
     </div>
 
-    {{-- Pagination --}}
+    {{-- Pagination Kategori --}}
     @if($kategori->hasPages())
     <div class="kasir-pagination">
         {{ $kategori->links() }}
     </div>
     @endif
+
+    {{-- ============================================================
+         SECTION PRODUK TERBARU
+    ============================================================ --}}
+    <div class="kasir-produk-section">
+        <div class="kasir-section-header">
+            <div class="kasir-section-title">Produk Terbaru</div>
+        </div>
+
+        <div class="produk-grid" id="produkGrid">
+            @forelse($produkTerbaru as $item)
+            @php
+                $hargaList = $item->hargaProduk;
+                $totalStok = $hargaList->sum('stok');
+                $isHabis   = $totalStok <= 0;
+            @endphp
+
+            <div class="produk-card {{ $isHabis ? 'produk-card--habis' : '' }}"
+                 data-nama="{{ strtolower($item->nama_produk) }}"
+                 onclick="openDetailModal({{ $item->id_produk }})">
+
+                @if($isHabis)
+                    <div class="produk-badge-habis">Stok Habis</div>
+                @else
+                    <div class="produk-badge-stok">
+                        <span class="produk-stok-dot"></span>
+                    </div>
+                @endif
+
+                <div class="produk-card-img-wrap">
+                    @if($item->gambar)
+                        <img src="{{ Storage::url($item->gambar) }}" alt="{{ $item->nama_produk }}" class="produk-card-img">
+                    @else
+                        <div class="produk-card-img-placeholder">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="produk-card-body">
+                    <div class="produk-card-name">{{ $item->nama_produk }}</div>
+                    <div class="produk-card-prices">
+                        @foreach($hargaList as $hp)
+                        <div class="produk-card-price-row">
+                            Rp {{ number_format($hp->harga_jual, 0, ',', '.') }} / {{ $hp->unit->satuan }}
+                        </div>
+                        @endforeach
+                    </div>
+                    @if(!$isHabis)
+                    <button class="produk-btn-tambah"
+                            onclick="event.stopPropagation(); openTambahModal({{ $item->id_produk }})"
+                            title="Tambah ke keranjang">
+                        <i class="bi bi-plus-lg me-1"></i> Keranjang
+                    </button>
+                    @endif
+                </div>
+
+            </div>
+            @empty
+            <div class="produk-empty">
+                <i class="bi bi-box-seam"></i>
+                <p>Belum ada produk tersedia</p>
+            </div>
+            @endforelse
+        </div>
+    </div>
 
 </div>
 
@@ -58,8 +123,6 @@
 <div class="cart-modal-backdrop" id="cartModalBackdrop" onclick="tutupCartModal()"></div>
 
 <div class="cart-modal" id="cartModal">
-
-    {{-- Header --}}
     <div class="cart-modal-header">
         <div class="cart-modal-title">
             <i class="bi bi-cart3 me-2"></i> Keranjang Belanja
@@ -69,7 +132,6 @@
         </button>
     </div>
 
-    {{-- Body --}}
     <div class="cart-modal-body">
         @php $keranjang = session('keranjang', []); @endphp
 
@@ -82,7 +144,6 @@
         @else
             @foreach($keranjang as $key => $item)
             <div class="cart-modal-item">
-                {{-- Gambar --}}
                 <div class="cart-modal-item-img">
                     @if($item['gambar'])
                         <img src="{{ Storage::url($item['gambar']) }}" alt="{{ $item['nama_produk'] }}">
@@ -92,23 +153,17 @@
                         </div>
                     @endif
                 </div>
-
-                {{-- Info --}}
                 <div class="cart-modal-item-info">
                     <div class="cart-modal-item-name">{{ $item['nama_produk'] }}</div>
                     <div class="cart-modal-item-satuan">{{ $item['satuan'] }}</div>
                     <div class="cart-modal-item-harga">
-                        Rp {{ number_format($item['harga'], 0, ',', '.') }}
+                        Rp {{ number_format($item['harga_jual'], 0, ',', '.') }}
                         <span class="cart-modal-item-qty">× {{ $item['jumlah'] }}</span>
                     </div>
                 </div>
-
-                {{-- Subtotal --}}
                 <div class="cart-modal-item-subtotal">
                     Rp {{ number_format($item['subtotal'], 0, ',', '.') }}
                 </div>
-
-                {{-- Hapus --}}
                 <form action="{{ route('kasir.keranjang.hapus') }}" method="POST">
                     @csrf
                     <input type="hidden" name="key" value="{{ $key }}">
@@ -121,7 +176,6 @@
         @endif
     </div>
 
-    {{-- Footer --}}
     @if(!empty($keranjang))
     <div class="cart-modal-footer">
         <div class="cart-modal-subtotal">
@@ -134,291 +188,150 @@
             <button class="cart-modal-btn-lanjut" onclick="tutupCartModal()">
                 <i class="bi bi-plus-circle me-1"></i> Tambah Produk
             </button>
-            <a href="{{ route('kasir.keranjang') }}" class="cart-modal-btn-checkout">
+            <button class="cart-modal-btn-checkout" onclick="tutupCartModal(); setTimeout(bukaModalTrx, 200);">
                 CHECKOUT <i class="bi bi-arrow-right ms-1"></i>
-            </a>
+            </button>
         </div>
     </div>
     @endif
-
 </div>
 
-@push('styles')
-<style>
-/* ============================================================
-   CART MODAL POPUP — Dashboard Kasir
-   ============================================================ */
+{{-- ============================================================
+     MODAL: Detail Produk 
+     ============================================================ --}}
+<div class="modal fade modal-detail-produk" id="modalDetailProduk" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content produk-modal">
+            <div class="modal-header">
+                <h6 class="modal-title">
+                    <i class="bi bi-box-seam me-2"></i> Detail Produk
+                </h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="detail-container">
+                    
+                    {{-- KOLOM KIRI: GAMBAR --}}
+                    <div class="detail-gambar-col">
+                        <div class="detail-gambar-wrap">
+                            <img id="detailGambar" src="" alt="" class="detail-gambar" style="display: none;">
+                            <div id="detailGambarPlaceholder" class="detail-gambar-placeholder">
+                                <i class="bi bi-image"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {{-- KOLOM KANAN: INFO PRODUK --}}
+                    <div class="detail-info-col">
+                        <div class="detail-nama-produk" id="detailNama"></div>
+                        
+                        <div class="detail-badges" id="detailBadges"></div>
+                        
+                        <div class="detail-meta-grid">
+                            <div class="detail-meta-item">
+                                <span class="detail-meta-label">
+                                    <i class="bi bi-calendar me-1"></i> Kadaluarsa
+                                </span>
+                                <span class="detail-meta-value" id="detailKadaluarsa">—</span>
+                            </div>
+                            <div class="detail-meta-item">
+                                <span class="detail-meta-label">
+                                    <i class="bi bi-boxes me-1"></i> Stok Tersedia
+                                </span>
+                                <span class="detail-meta-value" id="detailStok">—</span>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-deskripsi-section">
+                            <div class="detail-deskripsi-label">
+                                <i class="bi bi-file-text"></i> Deskripsi
+                            </div>
+                            <div class="detail-deskripsi" id="detailDeskripsi">—</div>
+                        </div>
+                        
+                        <div class="detail-harga-section">
+                            <div class="detail-harga-label">
+                                <i class="bi bi-tags"></i> Daftar Harga & Stok
+                            </div>
+                            <table class="detail-harga-table" id="detailHargaTable">
+                                <thead>
+                                    <tr>
+                                        <th>Satuan</th>
+                                        <th>Harga Jual</th>
+                                        <th>Stok</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="detailHargaTableBody">
+                                    <tr>
+                                        <td colspan="3" class="text-muted">Memuat data...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="detail-btn-wrap">
+                            <button class="detail-btn-tambah" id="detailBtnTambah">
+                                <i class="bi bi-cart-plus"></i> Tambah ke Keranjang
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-/* Backdrop */
-.cart-modal-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    z-index: 1040;
-    animation: backdropIn 0.2s ease;
-}
-.cart-modal-backdrop.show { display: block; }
+{{-- ============================================================
+     MODAL: Tambah ke Keranjang
+     ============================================================ --}}
+<div class="modal fade" id="modalTambahKeranjang" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content produk-modal">
+            <div class="modal-header produk-modal-header">
+                <h6 class="modal-title">Tambahkan ke keranjang</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="tambah-produk-info">
+                    <div class="tambah-produk-img-wrap">
+                        <img id="tambahGambar" src="" alt="" class="tambah-produk-img">
+                    </div>
+                    <div class="tambah-produk-nama" id="tambahNama"></div>
+                </div>
+                <div class="tambah-satuan-list" id="tambahSatuanList"></div>
+                <div class="tambah-footer">
+                    <div class="tambah-qty-wrap">
+                        <button class="tambah-qty-btn" onclick="kurangQty()" type="button">−</button>
+                        <input type="number" id="tambahQty" class="tambah-qty-input" value="1" min="1">
+                        <button class="tambah-qty-btn" onclick="tambahQty()" type="button">+</button>
+                    </div>
+                    <form id="formTambahKeranjang" action="{{ route('kasir.keranjang.tambah') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id_harga_produk" id="tambahIdHarga">
+                        <input type="hidden" name="jumlah" id="tambahJumlahHidden">
+                        <button type="submit" class="tambah-submit-btn" onclick="submitTambah(event)">
+                            <i class="bi bi-cart-plus me-1"></i> Keranjang
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-@keyframes backdropIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
+{{-- Modal Transaksi --}}
+@include('kasir.transaksi-modal')
 
-/* Modal */
-.cart-modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -48%);
-    width: 480px;
-    max-width: calc(100vw - 32px);
-    max-height: 80vh;
-    background: white;
-    border-radius: 18px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    z-index: 1050;
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-    animation: modalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.cart-modal.show {
-    display: flex;
-}
-
-@keyframes modalIn {
-    from { opacity: 0; transform: translate(-50%, -44%) scale(0.95); }
-    to   { opacity: 1; transform: translate(-50%, -48%) scale(1); }
-}
-
-/* Header */
-.cart-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 20px;
-    background: #2d5a14;
-    color: white;
-    flex-shrink: 0;
-}
-.cart-modal-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-}
-.cart-modal-close {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 0.9rem;
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s;
-}
-.cart-modal-close:hover { background: rgba(255,255,255,0.15); }
-
-/* Body */
-.cart-modal-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Empty */
-.cart-modal-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 48px 20px;
-    color: #9ca3af;
-    gap: 8px;
-    text-align: center;
-}
-.cart-modal-empty i    { font-size: 2.8rem; opacity: 0.3; }
-.cart-modal-empty p    { font-size: 0.9rem; font-weight: 700; color: #6b7280; margin: 0; }
-.cart-modal-empty span { font-size: 0.78rem; }
-
-/* Item */
-.cart-modal-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    background: #f9fafb;
-    border-radius: 12px;
-    border: 1px solid #f3f4f6;
-}
-.cart-modal-item-img {
-    width: 52px;
-    height: 52px;
-    border-radius: 10px;
-    overflow: hidden;
-    background: #e5e7eb;
-    flex-shrink: 0;
-}
-.cart-modal-item-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.cart-modal-item-img-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #9ca3af;
-    font-size: 1.1rem;
-}
-.cart-modal-item-info { flex: 1; min-width: 0; }
-.cart-modal-item-name {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #1a2e0f;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.cart-modal-item-satuan {
-    font-size: 0.7rem;
-    color: #9ca3af;
-    margin: 2px 0;
-}
-.cart-modal-item-harga {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #3a6b1a;
-}
-.cart-modal-item-qty {
-    font-weight: 400;
-    color: #6b7280;
-    font-size: 0.75rem;
-}
-.cart-modal-item-subtotal {
-    font-size: 0.82rem;
-    font-weight: 800;
-    color: #1a2e0f;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-.cart-modal-item-hapus {
-    background: transparent;
-    border: none;
-    color: #dc2626;
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    transition: background 0.15s;
-    flex-shrink: 0;
-}
-.cart-modal-item-hapus:hover { background: #fee2e2; }
-
-/* Footer */
-.cart-modal-footer {
-    padding: 14px 16px;
-    border-top: 1px solid #f3f4f6;
-    flex-shrink: 0;
-    background: white;
-}
-.cart-modal-subtotal {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    font-size: 0.875rem;
-    color: #374151;
-    font-weight: 600;
-}
-.cart-modal-subtotal-value {
-    font-size: 1rem;
-    font-weight: 800;
-    color: #1a2e0f;
-}
-.cart-modal-actions {
-    display: flex;
-    gap: 10px;
-}
-.cart-modal-btn-lanjut {
-    flex: 1;
-    padding: 10px;
-    background: white;
-    border: 2px solid #3a6b1a;
-    color: #3a6b1a;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    font-family: 'Poppins', sans-serif;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s;
-}
-.cart-modal-btn-lanjut:hover { background: #f0fce8; }
-.cart-modal-btn-checkout {
-    flex: 1.5;
-    padding: 10px;
-    background: #8ece3f;
-    color: white;
-    border-radius: 10px;
-    font-size: 0.82rem;
-    font-weight: 800;
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    letter-spacing: 0.5px;
-    transition: background 0.15s;
-}
-.cart-modal-btn-checkout:hover { background: #7cbd2f; color: white; }
-</style>
-@endpush
-
-@push('scripts')
+{{-- Data produk untuk JS (gabungkan produk terbaru) --}}
 <script>
-function bukaCartModal() {
-    document.getElementById('cartModal').classList.add('show');
-    document.getElementById('cartModalBackdrop').classList.add('show');
-    document.body.style.overflow = 'hidden';
-}
-
-function tutupCartModal() {
-    document.getElementById('cartModal').classList.remove('show');
-    document.getElementById('cartModalBackdrop').classList.remove('show');
-    document.body.style.overflow = '';
-}
-
-// Override toggleCartPanel dari kasir.js —
-// di halaman dashboard, cart icon buka modal bukan slide panel
-window.toggleCartPanel = function() {
-    const modal = document.getElementById('cartModal');
-    if (modal.classList.contains('show')) {
-        tutupCartModal();
-    } else {
-        bukaCartModal();
-    }
-};
-
-// Tutup dengan Escape
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') tutupCartModal();
-});
+const produkData = @json($produkTerbaruJs);
 </script>
-@endpush
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/kasir/dashboard.js') }}"></script>
+<script src="{{ asset('js/kasir/transaksi.js') }}"></script>
+<script src="{{ asset('js/kasir/produk.js') }}"></script>
+@endpush

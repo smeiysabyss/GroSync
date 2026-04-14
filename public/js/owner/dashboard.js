@@ -1,12 +1,3 @@
-/**
- * public/js/owner/dashboard.js
- * Grafik pendapatan owner dashboard
- *
- * Requires:
- *   - Chart.js (loaded via CDN in blade)
- *   - window.ownerChartData (didefinisikan di dashboard.blade.php)
- */
-
 document.addEventListener("DOMContentLoaded", function () {
     const { dataHarian, dataBulanan, dataTahunan } = window.ownerChartData;
 

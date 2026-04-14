@@ -47,7 +47,6 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    /* Sliding dari kiri: translate ke -100% saat disembunyikan */
     transform: translateX(0);
     transition:
         transform var(--sidebar-transition),
@@ -466,5 +465,93 @@ body {
 
     .page-content {
         padding: 16px;
+    }
+}
+
+/* ============================================================
+   TEMPEL DI BAGIAN PALING BAWAH public/css/admin/sidebar.css
+   ============================================================ */
+
+/* Navbar struktur 3 kolom seperti kasir */
+.top-navbar {
+    gap: 0;
+    padding: 0 20px;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Kiri: toggle + divider + brand */
+.admin-navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+
+.admin-brand {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Tengah: search bar */
+.admin-navbar-center {
+    flex: 1;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.admin-search-wrap {
+    position: relative;
+}
+
+.admin-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 0.95rem;
+    pointer-events: none;
+}
+
+.admin-search-input {
+    width: 100%;
+    padding: 10px 18px 10px 40px;
+    border: none;
+    border-radius: 50px;
+    background: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 0.875rem;
+    color: #374151;
+    outline: none;
+    transition: box-shadow 0.2s;
+}
+
+.admin-search-input:focus {
+    box-shadow: 0 0 0 3px rgba(142, 206, 63, 0.4);
+}
+
+.admin-search-input::placeholder {
+    color: #9ca3af;
+}
+
+/* Kanan: profile */
+.admin-navbar-right {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+/* Responsif */
+@media (max-width: 640px) {
+    .admin-navbar-center {
+        display: none;
+    }
+    .admin-brand {
+        font-size: 1rem;
     }
 }

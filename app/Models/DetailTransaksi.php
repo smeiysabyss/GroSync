@@ -14,6 +14,7 @@ class DetailTransaksi extends Model
         'id_harga_produk',
         'jumlah',
         'subtotal',
+        'hrg_jual',
     ];
 
     protected $casts = [

@@ -1,8 +1,3 @@
-/**
- * public/js/owner/log.js
- * Filter halaman Log Aktivitas owner
- */
-
 document.addEventListener("DOMContentLoaded", function () {
     // ============================================================
     // Auto-submit saat select modul / user berubah

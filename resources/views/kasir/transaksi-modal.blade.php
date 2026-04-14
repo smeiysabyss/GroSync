@@ -1,9 +1,4 @@
 {{-- ============================================================
-     Tambahkan di akhir produk.blade.php, sebelum @endsection:
-     @include('kasir.transaksi-modal')
-     ============================================================ --}}
-
-{{-- ============================================================
      MODAL: Transaksi / Checkout
      ============================================================ --}}
 <div class="trx-backdrop" id="trxBackdrop" onclick="tutupModalTrx()"></div>
@@ -75,7 +70,7 @@
                         class="trx-input trx-input-money"
                         placeholder="0"
                         min="0"
-                        step="1000"
+                        step="1"
                         oninput="hitungKembalian()"
                         required
                     >
@@ -100,7 +95,7 @@
 
             {{-- Cetak struk --}}
             <label class="trx-cetak-label">
-                <input type="checkbox" name="cetak_struk" id="trxCetakStruk" class="trx-cetak-checkbox" checked>
+                <input type="checkbox" name="cetak_struk" id="trxCetakStruk" class="trx-cetak-checkbox">
                 <span class="trx-cetak-text">
                     <i class="bi bi-printer me-1"></i> Cetak bukti pembayaran
                 </span>

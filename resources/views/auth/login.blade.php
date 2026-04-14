@@ -20,7 +20,7 @@
 
         <p class="card-title">GROSYNC</p>
 
-        {{-- Alert error global (misal: akun nonaktif) --}}
+        {{-- Alert error — tampil di atas, satu pesan saja --}}
         @if($errors->any())
             <div class="alert-error">
                 <span class="alert-icon">⚠</span>
@@ -44,9 +44,6 @@
                     autocomplete="email"
                     required
                 >
-                @error('email')
-                    <p class="error-msg">{{ $message }}</p>
-                @enderror
             </div>
 
             {{-- Password --}}
@@ -73,9 +70,6 @@
                         </svg>
                     </button>
                 </div>
-                @error('password')
-                    <p class="error-msg">{{ $message }}</p>
-                @enderror
             </div>
 
             <button type="submit" class="btn-login">LOGIN</button>

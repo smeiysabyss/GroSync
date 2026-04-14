@@ -1,6 +1,6 @@
-/* public/css/admin/produk.css */
-
-/* Page Header */
+/* ============================================================
+   Page Header
+   ============================================================ */
 .page-title {
     font-size: 1.3rem;
     font-weight: 700;
@@ -32,10 +32,7 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    transition:
-        background-color 0.2s,
-        transform 0.15s,
-        box-shadow 0.2s;
+    transition: all 0.2s;
     box-shadow: 0 2px 6px rgba(74, 124, 47, 0.3);
 }
 .btn-tambah:hover {
@@ -75,11 +72,8 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    transition:
-        box-shadow 0.2s,
-        transform 0.2s;
+    transition: all 0.2s;
 }
-
 .produk-card:hover {
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
@@ -92,13 +86,11 @@
     background: #f3f4f6;
     overflow: hidden;
 }
-
 .produk-card-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-
 .produk-no-img {
     width: 100%;
     height: 100%;
@@ -129,7 +121,6 @@
     padding: 14px 16px;
     flex: 1;
 }
-
 .produk-nama {
     font-size: 0.92rem;
     font-weight: 700;
@@ -137,46 +128,51 @@
     line-height: 1.4;
     margin-bottom: 4px;
 }
-
 .produk-deskripsi {
     font-size: 0.78rem;
     color: #6b7280;
     line-height: 1.5;
 }
 
-/* Harga Chips */
-.produk-harga-info {
+/* Daftar Harga per Satuan (tanpa border) */
+.produk-harga-list {
+    margin-top: 8px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
+    flex-direction: column;
+    gap: 4px;
 }
-
-.harga-chip {
-    display: inline-block;
-    background: #f0fdf4;
-    color: #166534;
-    border: 1px solid #bbf7d0;
-    border-radius: 20px;
-    font-size: 0.73rem;
-    font-weight: 600;
-    padding: 2px 9px;
-}
-
-.harga-chip-more {
-    background: #f3f4f6;
-    color: #6b7280;
-    border-color: #e5e7eb;
-}
-
-.produk-no-harga {
+.produk-harga-item {
     font-size: 0.8rem;
-    color: #9ca3af;
-    font-style: italic;
+    font-weight: 500;
+    color: #374151;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px;
 }
-
-.produk-exp {
-    font-size: 0.76rem;
-    color: #9ca3af;
+.produk-harga-nominal {
+    font-weight: 700;
+    color: #1a2e0f;
+}
+.produk-harga-satuan {
+    font-weight: 500;
+    color: #4a7c2f;
+    font-size: 0.75rem;
+}
+.produk-harga-stok {
+    font-size: 0.7rem;
+    color: #6b7280;
+    font-weight: 400;
+}
+/* Total Stok */
+.produk-total-stok {
+    margin-top: 8px;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+.produk-total-stok strong {
+    color: #1a2e0f;
+    font-weight: 700;
 }
 
 /* Card Footer */
@@ -197,9 +193,7 @@
     font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
-    transition:
-        background-color 0.2s,
-        transform 0.15s;
+    transition: all 0.15s;
     padding: 7px 10px;
     gap: 4px;
 }
@@ -228,7 +222,6 @@
     position: relative;
     display: inline-block;
 }
-
 .gambar-preview {
     width: 100%;
     max-height: 120px;
@@ -236,7 +229,6 @@
     border-radius: 8px;
     border: 1.5px solid #e5e7eb;
 }
-
 .btn-hapus-preview {
     position: absolute;
     top: -8px;
@@ -264,19 +256,16 @@
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
-
 .grosync-modal .modal-header {
     background-color: #2d5a1b;
     padding: 16px 20px;
     border-bottom: none;
 }
-
 .grosync-modal .modal-title {
     font-size: 1rem;
     font-weight: 700;
     color: #ffffff;
 }
-
 .grosync-modal .modal-body {
     padding: 24px 20px 16px;
 }
@@ -284,7 +273,6 @@
     padding: 12px 20px 20px;
     border-top: 1px solid #f3f4f6;
 }
-
 .grosync-modal .form-label {
     font-size: 0.85rem;
     font-weight: 600;
@@ -299,20 +287,13 @@
     font-size: 0.88rem;
     color: #374151;
     background-color: #fafafa;
-    transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
+    transition: all 0.2s;
 }
-
 .grosync-input:focus {
     border-color: #4a7c2f;
     box-shadow: 0 0 0 3px rgba(74, 124, 47, 0.12);
     background-color: #ffffff;
     outline: none;
-}
-
-.grosync-input.is-invalid {
-    border-color: #ef4444;
 }
 
 .btn-batal {
@@ -359,7 +340,6 @@
     font-size: 1.6rem;
     color: #dc2626;
 }
-
 .btn-danger-solid {
     background-color: #dc2626;
     color: #ffffff;
@@ -385,4 +365,322 @@
     background-color: #4a7c2f;
     border-color: #4a7c2f;
     color: #ffffff;
+}
+/* ============================================================
+   MODAL DETAIL PRODUK - ADMIN
+   ============================================================ */
+
+/* Modal Ukuran Lebih Besar */
+.modal-detail-produk .modal-dialog {
+    max-width: 900px;
+}
+
+.modal-detail-produk .modal-content {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Layout 2 Kolom */
+.detail-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (min-width: 768px) {
+    .detail-container {
+        flex-direction: row;
+        gap: 24px;
+    }
+}
+
+/* Kolom Kiri - Gambar */
+.detail-gambar-col {
+    flex-shrink: 0;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .detail-gambar-col {
+        width: 240px;
+    }
+}
+
+.detail-gambar-wrap {
+    background: #f8faf8;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e8f0e3;
+}
+
+.detail-gambar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-gambar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #cbd5e1;
+    font-size: 3rem;
+}
+
+/* Kolom Kanan */
+.detail-info-col {
+    flex: 1;
+}
+
+.detail-nama-produk {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #1a2e0f;
+    margin-bottom: 8px;
+}
+
+.detail-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.detail-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.detail-badge-kategori {
+    background: #e8f5d9;
+    color: #3a6b1a;
+}
+
+.detail-deskripsi-section {
+    margin-bottom: 20px;
+}
+
+.detail-deskripsi-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.detail-deskripsi {
+    font-size: 0.8rem;
+    color: #4b5563;
+    line-height: 1.5;
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #f3f4f6;
+}
+
+/* Tabel Harga */
+.detail-harga-section {
+    margin-bottom: 20px;
+}
+
+.detail-harga-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.detail-harga-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+
+.detail-harga-table th {
+    background: #f3f4f6;
+    padding: 10px 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #374151;
+    text-align: left;
+}
+
+.detail-harga-table td {
+    padding: 10px 8px;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.detail-harga-table tr:last-child td {
+    border-bottom: none;
+}
+
+.detail-harga-satuan {
+    font-weight: 600;
+    color: #1a2e0f;
+}
+
+.detail-harga-beli {
+    color: #dc2626;
+    font-weight: 500;
+}
+
+.detail-harga-jual {
+    color: #3a6b1a;
+    font-weight: 700;
+}
+
+.detail-harga-stok {
+    color: #6b7280;
+}
+
+.detail-harga-stok.habis {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.margin-high {
+    color: #3a6b1a;
+    font-weight: 700;
+}
+
+.margin-medium {
+    color: #f59e0b;
+    font-weight: 600;
+}
+
+.margin-low {
+    color: #ef4444;
+    font-weight: 500;
+}
+
+/* Tabel Riwayat Stok */
+.detail-riwayat-section {
+    margin-top: 8px;
+}
+
+.detail-riwayat-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.detail-riwayat-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+
+.detail-riwayat-table th {
+    background: #f3f4f6;
+    padding: 8px 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #374151;
+    text-align: left;
+}
+
+.detail-riwayat-table td {
+    padding: 8px 6px;
+    font-size: 0.75rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+/* Tombol Aksi Modal */
+.detail-btn-wrap {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.detail-btn-edit {
+    background: #4a7c2f;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.detail-btn-edit:hover {
+    background: #3a6424;
+    transform: scale(1.02);
+}
+
+.detail-btn-tutup {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.detail-btn-tutup:hover {
+    background: #e5e7eb;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .detail-harga-table th,
+    .detail-harga-table td,
+    .detail-riwayat-table th,
+    .detail-riwayat-table td {
+        font-size: 0.65rem;
+        padding: 6px 4px;
+    }
+
+    .detail-btn-wrap {
+        flex-direction: column;
+    }
+
+    .detail-btn-edit,
+    .detail-btn-tutup {
+        width: 100%;
+        justify-content: center;
+    }
 }

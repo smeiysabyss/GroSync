@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Kategori;
+use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -41,6 +42,8 @@ class KategoriController extends Controller
             'gambar'        => $pathGambar,
         ]);
 
+        LogAktivitas::catat('kategori', "Menambahkan kategori \"{$request->nama_kategori}\".");
+
         return redirect()->route('admin.kategori.index')
             ->with('success', "Kategori \"{$request->nama_kategori}\" berhasil ditambahkan!");
     }
@@ -53,7 +56,6 @@ class KategoriController extends Controller
                 Rule::unique('kategori_produk', 'nama_kategori')
                     ->ignore($kategori->id_kategori, 'id_kategori'),
             ],
-            // Edit: gambar opsional (boleh tidak diganti)
             'gambar' => 'nullable|image|mimes:jpeg,png,webp|max:2048',
         ], [
             'nama_kategori.required' => 'Nama kategori wajib diisi.',
@@ -63,11 +65,10 @@ class KategoriController extends Controller
             'gambar.max'             => 'Ukuran gambar maksimal 2MB.',
         ]);
 
-        $data = ['nama_kategori' => $request->nama_kategori];
+        $nameLama = $kategori->nama_kategori;
+        $data     = ['nama_kategori' => $request->nama_kategori];
 
-        // Upload gambar baru jika ada
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama dari storage
             if ($kategori->gambar) {
                 Storage::disk('public')->delete($kategori->gambar);
             }
@@ -75,6 +76,8 @@ class KategoriController extends Controller
         }
 
         $kategori->update($data);
+
+        LogAktivitas::catat('kategori', "Mengubah kategori \"{$nameLama}\" menjadi \"{$request->nama_kategori}\".");
 
         return redirect()->route('admin.kategori.index')
             ->with('success', "Kategori berhasil diperbarui menjadi \"{$request->nama_kategori}\"!");
@@ -87,13 +90,14 @@ class KategoriController extends Controller
                 ->with('error', "Kategori \"{$kategori->nama_kategori}\" tidak dapat dihapus karena masih memiliki produk terkait!");
         }
 
-        // Hapus gambar dari storage
         if ($kategori->gambar) {
             Storage::disk('public')->delete($kategori->gambar);
         }
 
         $nama = $kategori->nama_kategori;
         $kategori->delete();
+
+        LogAktivitas::catat('kategori', "Menghapus kategori \"{$nama}\".");
 
         return redirect()->route('admin.kategori.index')
             ->with('success', "Kategori \"{$nama}\" berhasil dihapus!");

@@ -75,7 +75,8 @@
                     <th class="col-no">#</th>
                     <th>Produk</th>
                     <th>Kategori</th>
-                    <th>Harga &amp; Satuan</th>
+                    <th>Harga Beli</th>
+                    <th>Harga Jual</th>
                     <th>Stok</th>
                     <th>Kadaluarsa</th>
                 </tr>
@@ -104,14 +105,33 @@
                     <td>
                         <span class="ow-badge ow-badge-green">{{ $produk->kategori->nama_kategori ?? '-' }}</span>
                     </td>
+                    
+                    {{-- HARGA BELI --}}
                     <td>
                         @foreach($produk->hargaProduk as $hp)
                         <div class="ow-harga-row">
-                            <strong>Rp {{ number_format($hp->harga, 0, ',', '.') }}</strong>
+                            <span class="ow-harga-beli">
+                                Rp {{ number_format($hp->harga, 0, ',', '.') }}
+                            </span>
                             <span class="text-muted">/ {{ $hp->unit->satuan ?? '-' }}</span>
                         </div>
                         @endforeach
                     </td>
+                    
+                    {{-- HARGA JUAL (TANPA MARGIN) --}}
+                    <td>
+                        @foreach($produk->hargaProduk as $hp)
+                        <div class="ow-harga-row">
+                            <span class="ow-harga-jual">
+                                <strong>Rp {{ number_format($hp->harga_jual, 0, ',', '.') }}</strong>
+                            </span>
+                            <span class="text-muted">/ {{ $hp->unit->satuan ?? '-' }}</span>
+                            {{-- MARGIN TIDAK DITAMPILKAN --}}
+                        </div>
+                        @endforeach
+                    </td>
+                    
+                    {{-- STOK --}}
                     <td>
                         @foreach($produk->hargaProduk as $hp)
                         <div class="ow-harga-row">
@@ -125,6 +145,8 @@
                         </div>
                         @endforeach
                     </td>
+                    
+                    {{-- KADALUARSA --}}
                     <td>
                         @if($produk->tanggal_kadaluarsa)
                             @php
@@ -148,7 +170,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         <div class="ow-empty">
                             <div class="ow-empty-icon"><i class="bi bi-box-seam"></i></div>
                             <div class="ow-empty-text">Produk tidak ditemukan</div>

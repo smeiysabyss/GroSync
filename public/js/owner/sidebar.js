@@ -1,5 +1,3 @@
-// public/js/owner/sidebar.js
-
 (function () {
     "use strict";
 

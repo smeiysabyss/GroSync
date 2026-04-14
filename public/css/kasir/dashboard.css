@@ -401,84 +401,44 @@ body {
 }
 
 /* ============================================================
-   CATEGORY GRID
+   DASHBOARD SPECIFIC STYLES
    ============================================================ */
+
+/* Category Grid - DIPERKECIL */
 .kasir-category-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
 }
 
 .kasir-category-card {
     background: white;
-    border-radius: var(--kasir-radius);
-    padding: 24px 16px;
+    border-radius: 12px;
+    padding: 12px 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     text-decoration: none;
     color: var(--kasir-text);
-    box-shadow: var(--kasir-shadow);
-    border: 2px solid transparent;
-    transition:
-        transform 0.2s,
-        box-shadow 0.2s,
-        border-color 0.2s;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s;
     cursor: pointer;
-    min-height: 150px;
-    justify-content: center;
-    animation: cardFadeIn 0.35s ease both;
-}
-
-.kasir-category-card:nth-child(1) {
-    animation-delay: 0.04s;
-}
-.kasir-category-card:nth-child(2) {
-    animation-delay: 0.08s;
-}
-.kasir-category-card:nth-child(3) {
-    animation-delay: 0.12s;
-}
-.kasir-category-card:nth-child(4) {
-    animation-delay: 0.16s;
-}
-.kasir-category-card:nth-child(5) {
-    animation-delay: 0.2s;
-}
-.kasir-category-card:nth-child(6) {
-    animation-delay: 0.24s;
-}
-.kasir-category-card:nth-child(7) {
-    animation-delay: 0.28s;
-}
-.kasir-category-card:nth-child(8) {
-    animation-delay: 0.32s;
-}
-
-@keyframes cardFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 .kasir-category-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(58, 107, 26, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(58, 107, 26, 0.12);
     border-color: var(--kasir-green-light);
     color: var(--kasir-text);
 }
 
-/* Category Image (jika ada gambar) */
+/* Category Image - lebih kecil */
 .kasir-category-img-wrap {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     overflow: hidden;
     flex-shrink: 0;
 }
@@ -487,69 +447,127 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s;
 }
 
-.kasir-category-card:hover .kasir-category-img {
-    transform: scale(1.08);
-}
-
-/* Category Icon (fallback) */
+/* Category Icon - lebih kecil */
 .kasir-category-icon {
-    width: 56px;
-    height: 56px;
+    width: 40px;
+    height: 40px;
     background: linear-gradient(135deg, #e8f5d9, #c8e6a0);
-    border-radius: 14px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: var(--kasir-green);
-    transition: background 0.2s;
-}
-
-.kasir-category-card:hover .kasir-category-icon {
-    background: linear-gradient(
-        135deg,
-        var(--kasir-green),
-        var(--kasir-green-dark)
-    );
-    color: white;
 }
 
 .kasir-category-name {
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 0.7rem;
+    font-weight: 600;
     text-align: center;
     color: var(--kasir-text);
-    line-height: 1.3;
+    line-height: 1.2;
 }
 
 .kasir-category-count {
-    font-size: 0.75rem;
+    font-size: 0.6rem;
     color: var(--kasir-muted);
     font-weight: 500;
 }
 
-/* ============================================================
-   EMPTY STATE
-   ============================================================ */
+/* Section Header */
+.kasir-section-header {
+    margin-bottom: 16px;
+}
+
+.kasir-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #4a4a4a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Produk Section */
+.kasir-produk-section {
+    margin-top: 32px;
+}
+
+/* Empty state */
 .kasir-empty-state {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 60px 20px;
+    padding: 40px 20px;
     color: var(--kasir-muted);
 }
 
 .kasir-empty-state i {
-    font-size: 3rem;
+    font-size: 2rem;
     display: block;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     opacity: 0.4;
 }
 
 .kasir-empty-state p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+}
+
+/* Pagination */
+.kasir-pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.kasir-pagination .pagination {
+    gap: 4px;
+}
+
+.kasir-pagination .page-link {
+    border-radius: 8px !important;
+    border: none;
+    color: var(--kasir-green);
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 6px 10px;
+}
+
+.kasir-pagination .page-item.active .page-link {
+    background: var(--kasir-green);
+    color: white;
+}
+
+/* Responsive kategori */
+@media (max-width: 900px) {
+    .kasir-category-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .kasir-category-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .kasir-category-card {
+        padding: 8px 4px;
+    }
+
+    .kasir-category-img-wrap,
+    .kasir-category-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .kasir-category-name {
+        font-size: 0.6rem;
+    }
+
+    .kasir-category-count {
+        font-size: 0.55rem;
+    }
 }
 
 /* ============================================================
@@ -697,4 +715,305 @@ body {
     color: #3a6b1a;
     white-space: nowrap;
     flex-shrink: 0;
+}
+
+/* ============================================================
+   MODAL DETAIL PRODUK 
+   ============================================================ */
+
+/* Modal Detail Produk - Layout Utama */
+.modal-detail-produk .modal-content {
+    border-radius: 20px;
+    overflow: hidden;
+    border: none;
+}
+
+.modal-detail-produk .modal-header {
+    background: linear-gradient(135deg, #2d5a14, #3a6b1a);
+    color: white;
+    padding: 16px 24px;
+    border-bottom: none;
+}
+
+.modal-detail-produk .modal-header .modal-title {
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.modal-detail-produk .modal-header .btn-close {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+.modal-detail-produk .modal-header .btn-close:hover {
+    opacity: 1;
+}
+
+/* Layout 2 Kolom */
+.detail-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (min-width: 768px) {
+    .detail-container {
+        flex-direction: row;
+        gap: 24px;
+    }
+}
+
+/* Kolom Kiri - Gambar */
+.detail-gambar-col {
+    flex-shrink: 0;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .detail-gambar-col {
+        width: 200px;
+    }
+}
+
+.detail-gambar-wrap {
+    background: #f8faf8;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e8f0e3;
+}
+
+.detail-gambar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-gambar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #cbd5e1;
+    font-size: 3rem;
+}
+
+/* Kolom Kanan - Info Produk */
+.detail-info-col {
+    flex: 1;
+}
+
+.detail-nama-produk {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #1a2e0f;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.detail-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.detail-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.detail-badge-kategori {
+    background: #e8f5d9;
+    color: #3a6b1a;
+}
+
+.detail-badge-satuan {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+/* Meta Info Grid (Kadaluarsa & Stok) */
+.detail-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+    background: #f8faf8;
+    border-radius: 14px;
+    padding: 12px;
+}
+
+.detail-meta-item {
+    text-align: center;
+}
+
+.detail-meta-label {
+    font-size: 0.65rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.detail-meta-value {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1a2e0f;
+}
+
+.detail-meta-value.kadaluarsa-warning {
+    color: #dc2626;
+}
+
+.detail-meta-value.kadaluarsa-near {
+    color: #f59e0b;
+}
+
+/* Deskripsi */
+.detail-deskripsi-section {
+    margin-bottom: 20px;
+}
+
+.detail-deskripsi-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.detail-deskripsi {
+    font-size: 0.8rem;
+    color: #4b5563;
+    line-height: 1.5;
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #f3f4f6;
+}
+
+/* Tabel Harga */
+.detail-harga-section {
+    margin-top: 8px;
+}
+
+.detail-harga-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.detail-harga-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+
+.detail-harga-table th {
+    background: #f3f4f6;
+    padding: 10px 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #374151;
+    text-align: left;
+}
+
+.detail-harga-table td {
+    padding: 10px 8px;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.detail-harga-table tr:last-child td {
+    border-bottom: none;
+}
+
+.detail-harga-satuan {
+    font-weight: 600;
+    color: #1a2e0f;
+}
+
+.detail-harga-harga {
+    font-weight: 700;
+    color: #3a6b1a;
+}
+
+.detail-harga-stok {
+    color: #6b7280;
+}
+
+.detail-harga-stok.habis {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+/* Tombol Tambah Keranjang */
+.detail-btn-wrap {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.detail-btn-tambah {
+    background: #8ece3f;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.detail-btn-tambah:hover {
+    background: #7cbd2f;
+    transform: scale(1.02);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .detail-meta-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .detail-harga-table th,
+    .detail-harga-table td {
+        font-size: 0.7rem;
+        padding: 8px 4px;
+    }
+
+    .detail-btn-tambah {
+        width: 100%;
+        justify-content: center;
+    }
 }

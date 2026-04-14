@@ -1,6 +1,7 @@
 @extends('layouts.kasir')
 
 @section('title', 'Riwayat Transaksi')
+@section('back_url', route('kasir.dashboard'))
 
 @push('styles')
 <link href="{{ asset('css/kasir/riwayat.css') }}" rel="stylesheet">
@@ -11,8 +12,31 @@
 {{-- PAGE HEADER --}}
 <div class="rw-page-header">
     <div>
-        <div class="rw-page-title">Riwayat Transaksi Hari Ini</div>
-        <div class="rw-page-subtitle">{{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</div>
+        <div class="rw-page-title">Riwayat Transaksi — {{ $labelPeriode }}</div>
+        <div class="rw-page-subtitle">{{ $subtitlePeriode }}</div>
+    </div>
+</div>
+
+{{-- SHORTCUT FILTER PERIODE --}}
+<div class="rw-filter-wrap mb-4">
+    <span class="rw-filter-label">Tampilkan:</span>
+    <div class="rw-filter-group">
+        <a href="{{ route('kasir.riwayat', ['periode' => 'hari_ini']) }}"
+           class="rw-filter-btn {{ $periode === 'hari_ini' ? 'active' : '' }}">
+            Hari Ini
+        </a>
+        <a href="{{ route('kasir.riwayat', ['periode' => 'minggu']) }}"
+           class="rw-filter-btn {{ $periode === 'minggu' ? 'active' : '' }}">
+            Minggu Ini
+        </a>
+        <a href="{{ route('kasir.riwayat', ['periode' => 'bulan']) }}"
+           class="rw-filter-btn {{ $periode === 'bulan' ? 'active' : '' }}">
+            Bulan Ini
+        </a>
+        <a href="{{ route('kasir.riwayat', ['periode' => 'tahun']) }}"
+           class="rw-filter-btn {{ $periode === 'tahun' ? 'active' : '' }}">
+            Tahun Ini
+        </a>
     </div>
 </div>
 
@@ -24,7 +48,7 @@
                 <i class="bi bi-receipt-cutoff"></i>
             </div>
             <div>
-                <div class="rw-stat-label">Total Transaksi</div>
+                <div class="rw-stat-label">Transaksi {{ $labelPeriode }}</div>
                 <div class="rw-stat-value">{{ $totalTransaksi }}</div>
             </div>
         </div>
@@ -35,7 +59,7 @@
                 <i class="bi bi-cash-stack"></i>
             </div>
             <div>
-                <div class="rw-stat-label">Total Pendapatan</div>
+                <div class="rw-stat-label">Pendapatan {{ $labelPeriode }}</div>
                 <div class="rw-stat-value rw-stat-value--sm">
                     <span class="rw-currency">Rp</span>{{ number_format($pendapatanHariIni, 0, ',', '.') }}
                 </div>
@@ -82,7 +106,6 @@
                     </td>
                     <td>
                         <div class="d-flex gap-1">
-                            {{-- Lihat Detail --}}
                             <button class="rw-btn-icon rw-btn-detail"
                                     title="Lihat Detail"
                                     data-trx="{{ json_encode([
@@ -92,7 +115,7 @@
                                         'bayar'     => $trx->uang_bayar,
                                         'kembali'   => $trx->kembalian,
                                         'status'    => $trx->status,
-                                        'waktu'     => \Carbon\Carbon::parse($trx->created_at)->format('H:i'),
+                                        'waktu'     => \Carbon\Carbon::parse($trx->created_at)->format('d/m/Y'),
                                         'items'     => $trx->detail->map(fn($d) => [
                                             'nama'     => $d->hargaProduk->produk->nama_produk ?? '-',
                                             'satuan'   => $d->hargaProduk->unit->satuan ?? '-',
@@ -102,8 +125,6 @@
                                     ]) }}">
                                 <i class="bi bi-eye"></i>
                             </button>
-
-                            {{-- Cetak Ulang Struk --}}
                             <button class="rw-btn-icon rw-btn-struk"
                                     data-id="{{ $trx->id_transaksi }}"
                                     title="Cetak Ulang Struk">
@@ -117,7 +138,7 @@
                     <td colspan="10">
                         <div class="rw-empty">
                             <div class="rw-empty-icon"><i class="bi bi-receipt"></i></div>
-                            <div class="rw-empty-text">Belum ada transaksi hari ini</div>
+                            <div class="rw-empty-text">Belum ada transaksi {{ strtolower($labelPeriode) }}</div>
                         </div>
                     </td>
                 </tr>
@@ -127,9 +148,7 @@
     </div>
 </div>
 
-{{-- ============================================================
-     MODAL DETAIL TRANSAKSI
-     ============================================================ --}}
+{{-- MODAL DETAIL --}}
 <div class="rw-modal-overlay" id="overlayDetail"></div>
 <div class="rw-modal" id="modalDetail">
     <div class="rw-modal-header">
@@ -142,9 +161,7 @@
         </button>
     </div>
     <div class="rw-modal-body">
-
         <div class="rw-detail-info-grid" id="detailInfoGrid"></div>
-
         <div class="rw-detail-section-title">Daftar Produk</div>
         <div class="rw-detail-table-wrap">
             <table class="rw-detail-table">
@@ -165,11 +182,9 @@
                 </tfoot>
             </table>
         </div>
-
     </div>
 </div>
 
-{{-- iframe cetak struk --}}
 <iframe id="iframeStruk" style="display:none;"></iframe>
 
 @endsection

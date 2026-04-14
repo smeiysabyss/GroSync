@@ -1,4 +1,3 @@
-{{-- resources/views/admin/pengguna/index.blade.php --}}
 @extends('layouts.admin')
 
 @section('title', 'Kelola Pengguna')

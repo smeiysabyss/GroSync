@@ -1,8 +1,3 @@
-/**
- * public/js/owner/laporan.js
- * Filter & shortcut tanggal halaman Laporan Transaksi owner
- */
-
 document.addEventListener("DOMContentLoaded", function () {
     // ============================================================
     // Auto-submit saat select status / kasir berubah

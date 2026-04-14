@@ -19,8 +19,8 @@
     {{-- HEADER --}}
     <div class="center">
         <div class="bold" style="font-size:14pt;">GROSYNC</div>
-        <div class="small">Jl. Contoh Alamat Toko No. 1, Kota</div>
-        <div class="small">No. Telp: 08xxxxxxxxxx</div>
+        <div class="small">Jl. Belendung Raya No. 1, Kota Subang</div>
+        <div class="small">No. Telp: 088318201800</div>
     </div>
 
     <hr>
@@ -40,25 +40,25 @@
     <hr>
 
     {{-- DETAIL PRODUK --}}
-    @foreach($transaksi->detail as $i => $d)
-    <table style="margin-bottom:4px;">
-        <tr>
-            <td class="bold" colspan="2">
-                {{ $i + 1 }}. {{ $d->hargaProduk->produk->nama_produk }}
-            </td>
-        </tr>
-        <tr>
-            <td class="small">
-                {{ $d->jumlah }}
-                {{ $d->hargaProduk->unit->satuan }}
-                x Rp {{ number_format($d->hargaProduk->harga, 0, ',', '.') }}
-            </td>
-            <td class="small right">
-                Rp {{ number_format($d->subtotal, 0, ',', '.') }}
-            </td>
-        </tr>
-    </table>
-    @endforeach
+   @foreach($transaksi->detail as $i => $d)
+        <table style="margin-bottom:4px;">
+            <tr>
+                <td class="bold" colspan="2">
+                    {{ $i + 1 }}. {{ $d->hargaProduk->produk->nama_produk }}
+                </td>
+            </tr>
+            <tr>
+                <td class="small">
+                    {{ $d->jumlah }}
+                    {{ $d->hargaProduk->unit->satuan }}
+                    x Rp {{ number_format($d->hrg_jual, 0, ',', '.') }}  {{-- ← PAKAI hrg_jual dari detail --}}
+                </td>
+                <td class="small right">
+                    Rp {{ number_format($d->subtotal, 0, ',', '.') }}
+                </td>
+            </tr>
+        </table>
+        @endforeach
 
     <hr>
 

@@ -1,9 +1,5 @@
-/**
- * public/js/kasir/produk.js
- */
-
 // ============================================================
-// SEARCH FILTER — pakai id kasirSearchInput (dari layout)
+// SEARCH FILTER
 // ============================================================
 document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("kasirSearchInput");
@@ -45,36 +41,43 @@ function filterProduk(keyword) {
 }
 
 // ============================================================
-// CART PANEL TOGGLE
+// CART MODAL POPUP
 // ============================================================
-function toggleCartPanel() {
-    const panel = document.getElementById("cartPanel");
-    const backdrop = document.getElementById("cartBackdrop");
-    const area = document.getElementById("produkArea");
-    const isOpen = panel.classList.contains("open");
-
-    if (isOpen) {
-        panel.classList.remove("open");
-        backdrop.classList.remove("show");
-        area.classList.remove("cart-open");
-    } else {
-        panel.classList.add("open");
-        backdrop.classList.add("show");
-        area.classList.add("cart-open");
-    }
+function bukaCartModal() {
+    document.getElementById("cartModal").classList.add("show");
+    document.getElementById("cartModalBackdrop").classList.add("show");
+    document.body.style.overflow = "hidden";
 }
 
-window.toggleCartPanel = toggleCartPanel;
+function tutupCartModal() {
+    document.getElementById("cartModal").classList.remove("show");
+    document.getElementById("cartModalBackdrop").classList.remove("show");
+    document.body.style.overflow = "";
+}
+
+window.toggleCartPanel = function () {
+    const modal = document.getElementById("cartModal");
+    if (modal.classList.contains("show")) {
+        tutupCartModal();
+    } else {
+        bukaCartModal();
+    }
+};
 
 document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-        const panel = document.getElementById("cartPanel");
-        if (panel && panel.classList.contains("open")) toggleCartPanel();
-    }
+    if (e.key === "Escape") tutupCartModal();
 });
 
 // ============================================================
-// MODAL DETAIL PRODUK
+// FORMAT RIBUAN (Helper)
+// ============================================================
+function formatRibuan(angka) {
+    if (!angka && angka !== 0) return "0";
+    return Number(angka).toLocaleString("id-ID");
+}
+
+// ============================================================
+// MODAL DETAIL PRODUK (REDESIGN)
 // ============================================================
 function openDetailModal(id_produk) {
     const p = produkData.find(function (x) {
@@ -82,34 +85,120 @@ function openDetailModal(id_produk) {
     });
     if (!p) return;
 
+    // Set Gambar
     const imgEl = document.getElementById("detailGambar");
-    if (p.gambar) {
+    const placeholderEl = document.getElementById("detailGambarPlaceholder");
+
+    if (p.gambar && p.gambar !== "") {
         imgEl.src = p.gambar;
-        imgEl.style.display = "";
+        imgEl.style.display = "block";
+        placeholderEl.style.display = "none";
     } else {
-        imgEl.src = "";
         imgEl.style.display = "none";
+        placeholderEl.style.display = "flex";
     }
 
+    // Set Nama Produk
     document.getElementById("detailNama").textContent = p.nama_produk;
 
+    // Set Badges (Kategori + Satuan)
     let badgesHtml =
-        '<span class="detail-badge detail-badge-kategori">' +
-        p.nama_kategori +
+        '<span class="detail-badge detail-badge-kategori"><i class="bi bi-tag me-1"></i>' +
+        (p.nama_kategori || "-") +
         "</span>";
+
     p.harga_list.forEach(function (hp) {
         badgesHtml +=
-            '<span class="detail-badge detail-badge-satuan">' +
+            '<span class="detail-badge detail-badge-satuan"><i class="bi bi-box me-1"></i>' +
             hp.satuan +
             "</span>";
     });
     document.getElementById("detailBadges").innerHTML = badgesHtml;
 
-    document.getElementById("detailKadaluarsa").textContent =
-        p.tanggal_kadaluarsa;
-    document.getElementById("detailStok").textContent = p.total_stok;
-    document.getElementById("detailDeskripsi").textContent = p.deskripsi || "—";
+    // Set Kadaluarsa
+    const kadaluarsaEl = document.getElementById("detailKadaluarsa");
+    if (p.tanggal_kadaluarsa && p.tanggal_kadaluarsa !== "—") {
+        kadaluarsaEl.textContent = p.tanggal_kadaluarsa;
+        // Cek apakah kadaluarsa sudah lewat atau hampir
+        const expDate = new Date(
+            p.tanggal_kadaluarsa.split("-").reverse().join("-"),
+        );
+        const today = new Date();
+        const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
 
+        if (diffDays < 0) {
+            kadaluarsaEl.classList.add("kadaluarsa-warning");
+        } else if (diffDays <= 30) {
+            kadaluarsaEl.classList.add("kadaluarsa-near");
+        }
+    } else {
+        kadaluarsaEl.textContent = "—";
+    }
+
+    // Set Deskripsi
+    document.getElementById("detailDeskripsi").textContent =
+        p.deskripsi || "Tidak ada deskripsi untuk produk ini.";
+
+    // Set Tabel Harga
+    const tableBody = document.getElementById("detailHargaTableBody");
+    tableBody.innerHTML = "";
+
+    let totalStok = 0;
+
+    p.harga_list.forEach(function (hp) {
+        const isHabis = hp.stok <= 0;
+        totalStok += hp.stok;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="detail-harga-satuan">${hp.satuan}</td>
+            <td class="detail-harga-harga">Rp ${formatRibuan(hp.harga_jual)}</td>
+            <td class="detail-harga-stok ${isHabis ? "habis" : ""}">
+                ${isHabis ? '<i class="bi bi-exclamation-triangle me-1"></i>Habis' : formatRibuan(hp.stok)}
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    // Set Total Stok di meta
+    const stokEl = document.getElementById("detailStok");
+    if (totalStok > 0) {
+        stokEl.textContent = formatRibuan(totalStok) + " item tersedia";
+        stokEl.style.color = "#3a6b1a";
+    } else {
+        stokEl.textContent = "Stok Habis";
+        stokEl.style.color = "#dc2626";
+    }
+
+    // Set tombol tambah ke keranjang
+    const btnTambah = document.getElementById("detailBtnTambah");
+    if (totalStok <= 0) {
+        btnTambah.disabled = true;
+        btnTambah.style.opacity = "0.5";
+        btnTambah.style.cursor = "not-allowed";
+        btnTambah.innerHTML = '<i class="bi bi-cart-plus"></i> Stok Habis';
+    } else {
+        btnTambah.disabled = false;
+        btnTambah.style.opacity = "1";
+        btnTambah.style.cursor = "pointer";
+        btnTambah.innerHTML =
+            '<i class="bi bi-cart-plus"></i> Tambah ke Keranjang';
+
+        // Hapus event listener lama agar tidak double
+        const newBtn = btnTambah.cloneNode(true);
+        btnTambah.parentNode.replaceChild(newBtn, btnTambah);
+
+        newBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            const modal = bootstrap.Modal.getInstance(
+                document.getElementById("modalDetailProduk"),
+            );
+            if (modal) modal.hide();
+            openTambahModal(p.id_produk);
+        });
+    }
+
+    // Tampilkan modal
     new bootstrap.Modal(document.getElementById("modalDetailProduk")).show();
 }
 
@@ -147,6 +236,14 @@ function openTambahModal(id_produk) {
             (isActive ? " active" : "") +
             (isHabis ? " disabled" : "");
 
+        // 🔥 PERBAIKAN: Gunakan harga_jual langsung, bukan harga_fmt (tapi harga_fmt juga boleh asal isinya dari harga_jual)
+        const hargaTampil = hp.harga_jual
+            ? hp.harga_jual
+            : hp.harga_fmt
+              ? parseFloat(hp.harga_fmt.replace(/[^0-9]/g, ""))
+              : 0;
+        const hargaFormatted = "Rp " + formatRibuan(hargaTampil);
+
         item.innerHTML =
             '<input type="radio" class="tambah-satuan-radio" name="satuan_pilih"' +
             ' value="' +
@@ -163,12 +260,11 @@ function openTambahModal(id_produk) {
             hp.satuan +
             "</div>" +
             '<div class="tambah-satuan-harga">' +
-            hp.harga_fmt +
+            hargaFormatted + // ← PASTIKAN INI HARGA JUAL
             "</div>" +
             '<div class="tambah-satuan-stok">' +
             (isHabis ? "Stok habis" : "Sisa " + hp.stok) +
-            "</div>" +
-            "</div>";
+            "</div></div>";
 
         satuanList.appendChild(item);
 

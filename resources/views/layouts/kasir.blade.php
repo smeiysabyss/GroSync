@@ -42,7 +42,7 @@
                 type="text"
                 id="kasirSearchInput"
                 class="kasir-search-input"
-                placeholder="@yield('search_placeholder', 'Cari...')"
+                placeholder="@yield('search_placeholder', 'Cari Produk...')"
                 autocomplete="off"
             >
         </div>

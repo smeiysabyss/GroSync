@@ -70,7 +70,7 @@
 
     {{-- Baris ringkasan --}}
     <tr>
-        <td colspan="4"><strong>RINGKASAN</strong></td>
+        <td colspan="4"><strong>TOTAL</strong></td>
         <td><strong>{{ $transaksis->count() }} transaksi</strong></td>
         <td><strong>{{ $totalPendapatan }}</strong></td>
         <td colspan="4"></td>

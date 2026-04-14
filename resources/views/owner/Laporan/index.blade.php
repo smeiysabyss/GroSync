@@ -11,7 +11,7 @@
 <div class="ow-page-header">
     <div>
         <div class="ow-page-title">Laporan Transaksi</div>
-        <div class="ow-page-subtitle">Semua riwayat transaksi dari seluruh kasir</div>
+        <div class="ow-page-subtitle">Semua ringkasan transaksi</div>
     </div>
     <div class="d-flex gap-2 flex-wrap align-items-center">
         {{-- Summary badges --}}
@@ -139,7 +139,7 @@
                             {{ ucfirst($trx->status) }}
                         </span>
                     </td>
-                    <td class="ow-td-waktu">{{ \Carbon\Carbon::parse($trx->created_at)->format('d/m/Y H:i') }}</td>
+                    <td class="ow-td-waktu">{{ \Carbon\Carbon::parse($trx->created_at)->format('d/m/Y') }}</td>
                 </tr>
                 @empty
                 <tr>
@@ -156,7 +156,7 @@
     </div>
     @if($transaksis->hasPages())
     <div class="ow-pagination">
-        {{ $transaksis->withQueryString()->links() }}
+        {{ $transaksis->withQueryString()->links('vendor.pagination.bootstrap-5') }}
     </div>
     @endif
 </div>

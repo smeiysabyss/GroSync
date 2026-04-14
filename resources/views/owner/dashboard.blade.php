@@ -17,6 +17,7 @@
 
 {{-- STAT CARDS --}}
 <div class="row g-3 mb-4">
+    {{-- Card 1: Transaksi Hari Ini --}}
     <div class="col-12 col-md-4">
         <div class="ow-stat-card">
             <div class="ow-stat-icon ow-stat-icon-blue">
@@ -29,6 +30,8 @@
             </div>
         </div>
     </div>
+
+    {{-- Card 2: Pendapatan Hari Ini --}}
     <div class="col-12 col-md-4">
         <div class="ow-stat-card">
             <div class="ow-stat-icon ow-stat-icon-amber">
@@ -43,17 +46,19 @@
             </div>
         </div>
     </div>
+
+    {{-- Card 3: Total Laba --}}
     <div class="col-12 col-md-4">
         <div class="ow-stat-card">
-            <div class="ow-stat-icon ow-stat-icon-purple">
+            <div class="ow-stat-icon ow-stat-icon-green">
                 <i class="bi bi-graph-up-arrow"></i>
             </div>
             <div class="ow-stat-info">
-                <div class="ow-stat-label">Pendapatan Bulan Ini</div>
+                <div class="ow-stat-label">Total Laba</div>
                 <div class="ow-stat-value ow-stat-value--currency">
-                    <span class="ow-stat-currency">Rp</span>{{ number_format($pendapatanBulanIni, 0, ',', '.') }}
+                    <span class="ow-stat-currency">Rp</span>{{ number_format($totalLaba, 0, ',', '.') }}
                 </div>
-                <div class="ow-stat-sub">{{ \Carbon\Carbon::now()->translatedFormat('F Y') }}</div>
+                <div class="ow-stat-sub">laba bersih keseluruhan</div>
             </div>
         </div>
     </div>

@@ -1,5 +1,3 @@
-// public/js/auth/login.js
-
 (function () {
     "use strict";
 

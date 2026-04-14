@@ -1,8 +1,3 @@
-/**
- * public/js/owner/produk.js
- * Filter & interaksi halaman Data Produk owner
- */
-
 document.addEventListener("DOMContentLoaded", function () {
     // ============================================================
     // Auto-submit form filter saat select kategori/satuan berubah
